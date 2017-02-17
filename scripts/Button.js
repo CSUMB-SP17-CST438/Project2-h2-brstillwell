@@ -5,11 +5,12 @@ import { Socket } from './Socket';
 export class Button extends React.Component {
     handleSubmit(event) {
         event.preventDefault();
-
+        var text = document.getElementById('comment').value;
+        console.log(text);
         let random = Math.floor(Math.random() * 100);
-        console.log('Generated a random number: ', random);
+        console.log('Generated a random number: ', text);
         Socket.emit('new number', {
-            'number': random,
+            'number': text,
         });
         console.log('Sent up the random number to server!');
     }

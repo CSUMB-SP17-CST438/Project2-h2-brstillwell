@@ -17,15 +17,18 @@ def on_connect():
 def on_disconnect():
     print 'Someone disconnected!'
 
+all_numbers = [];
 @socketio.on('new number')
 def on_new_number(data):
-    print "Got an event for new number with data:", data
-    # TODO: Fill me out!
-
-socketio.run(
-    app,
-    host=os.getenv('IP', '0.0.0.0'),
-    port=int(os.getenv('PORT', 8080)),
-    debug=True
-)
+    all_numbers.append(data['number'])
+    socketio.emit('all numbers', {
+        'numbers': all_numbers
+    })
+if __name__ == '__main__':
+    socketio.run(
+        app,
+        host=os.getenv('IP', '0.0.0.0'),
+        port=int(os.getenv('PORT', 8080)),
+        debug=True
+    )
 
