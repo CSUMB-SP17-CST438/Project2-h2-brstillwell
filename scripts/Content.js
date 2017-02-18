@@ -8,6 +8,13 @@ export class Content extends React.Component {
         return (
             <div>
                 <h1>Chat Room: </h1>
+                    <div
+                         className="fb-login-button"
+                         data-max-rows="1"
+                         data-size="medium"
+                         data-show-faces="false"
+                         data-auto-logout-link="true">
+                     </div>
                 <TextArea />
             
                 <div className="form-group">

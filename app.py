@@ -1,9 +1,12 @@
 import os
 import flask
 import flask_socketio
+import requests
 
 app = flask.Flask(__name__)
 socketio = flask_socketio.SocketIO(app)
+all_numbers = [];
+all_users = [];
 
 @app.route('/')
 def hello():
@@ -17,12 +20,20 @@ def on_connect():
 def on_disconnect():
     print 'Someone disconnected!'
 
-all_numbers = [];
-all_users = [];
+
 @socketio.on('new message')
 def on_new_number(data):
-    all_numbers.append(data['number'])
-    all_users.append(data['username'])
+    print "bout to get data"
+    response = requests.get(
+        'https://graph.facebook.com/v2.8/me?fields=id%2Cname%2Cpicture&access_token=' + data['facebook_user_token'])
+    json = response.json()
+    print "json requests made"
+    all_numbers.append({
+         'name': json['name'],
+         'picture': json['picture']['data']['url'],
+         'number': data['number']
+         })
+    #all_users.append(data['username'])
     socketio.emit('chatroom', {
         'numbers': all_numbers,
         'username': all_users

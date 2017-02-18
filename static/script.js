@@ -13132,6 +13132,12 @@ var Content = exports.Content = function (_React$Component) {
                     null,
                     'Chat Room: '
                 ),
+                React.createElement('div', {
+                    className: 'fb-login-button',
+                    'data-max-rows': '1',
+                    'data-size': 'medium',
+                    'data-show-faces': 'false',
+                    'data-auto-logout-link': 'true' }),
                 React.createElement(_TextArea.TextArea, null),
                 React.createElement(
                     'div',
@@ -13278,11 +13284,19 @@ var Button = exports.Button = function (_React$Component) {
             event.preventDefault();
             var text = document.getElementById('comment').value;
             console.log('Text that was sent: ', text);
-            _Socket.Socket.emit('new message', {
+            /*Socket.emit('new message', {
                 'number': text,
                 'username': "TomBot"
-            });
+            });*/
             console.log('Sent up the text to server!');
+            FB.getLoginStatus(function (response) {
+                if (response.status == 'connected') {
+                    _Socket.Socket.emit('new message', {
+                        'facebook_user_token': response.authResponse.accessToken,
+                        'number': text
+                    });
+                }
+            });
         }
     }, {
         key: 'render',
@@ -13339,9 +13353,7 @@ var TextArea = exports.TextArea = function (_React$Component) {
         var _this = _possibleConstructorReturn(this, (TextArea.__proto__ || Object.getPrototypeOf(TextArea)).call(this, props));
 
         _this.state = {
-            'numbers': [],
-            'usernames': [],
-            'messages': []
+            'numbers': []
         };
         return _this;
     }
@@ -13353,8 +13365,7 @@ var TextArea = exports.TextArea = function (_React$Component) {
 
             _Socket.Socket.on('chatroom', function (data) {
                 _this2.setState({
-                    'numbers': data['numbers'],
-                    'usernames': data['username']
+                    'numbers': data['numbers']
 
                 });
             });
@@ -13362,56 +13373,74 @@ var TextArea = exports.TextArea = function (_React$Component) {
     }, {
         key: 'render',
         value: function render() {
+            /*let numbers = this.state.numbers.map(
+                (n, index) => <td key={index}>{n}</td>
+            );
+            let username = this.state.usernames.map(
+                (u, index) => <td key={index}>{u} says:</td>
+            );*/
             var numbers = this.state.numbers.map(function (n, index) {
                 return React.createElement(
-                    'td',
+                    'table',
                     { key: index },
-                    n
-                );
-            });
-            var username = this.state.usernames.map(function (u, index) {
-                return React.createElement(
-                    'td',
-                    { key: index },
-                    u,
-                    ' says:'
-                );
-            });
-            function printMessages() {
-                console.log("this is the function i created - number: " + numbers.length);
-                var results = [];
-                for (var i = 0; i < numbers.length; i++) {
-                    results.push(React.createElement(
-                        'table',
-                        { key: i },
+                    React.createElement(
+                        'tbody',
+                        null,
                         React.createElement(
-                            'tbody',
+                            'tr',
                             null,
                             React.createElement(
-                                'tr',
-                                null,
-                                React.createElement(
-                                    'td',
-                                    { rowSpan: '2', id: 'images' },
-                                    React.createElement('img', { src: 'static/tom2.jpg' })
-                                ),
-                                username[i]
+                                'td',
+                                { rowSpan: '2', id: 'images' },
+                                React.createElement('img', { src: n.picture })
                             ),
                             React.createElement(
-                                'tr',
+                                'td',
                                 null,
-                                numbers[i]
+                                n.name,
+                                ' says:'
+                            )
+                        ),
+                        React.createElement(
+                            'tr',
+                            null,
+                            React.createElement(
+                                'td',
+                                null,
+                                n.number
                             )
                         )
-                    ));
+                    )
+                );
+            });
+
+            /*function printMessages() {
+                console.log("this is the function i created - number: " + numbers.length)
+                var results = [];
+                for (var i=0; i < numbers.length; i++) {
+                    results.push(
+                        
+                    <table key={i}>
+                        <tbody>
+                            <tr>
+                                <td rowSpan="2" id="images">
+                                    <img src="static/tom2.jpg"/>
+                                </td>
+                                {username[i]}
+                            </tr>
+                            <tr>
+                                {numbers[i]}
+                             </tr>
+                        </tbody>
+                    </table>)
                 }
                 return results;
-            }
+            }*/
 
             return React.createElement(
                 'div',
                 { id: 'chatBox' },
-                printMessages()
+                numbers
             );
         }
     }]);
