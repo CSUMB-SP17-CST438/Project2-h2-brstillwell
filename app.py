@@ -18,11 +18,14 @@ def on_disconnect():
     print 'Someone disconnected!'
 
 all_numbers = [];
-@socketio.on('new number')
+all_users = [];
+@socketio.on('new message')
 def on_new_number(data):
     all_numbers.append(data['number'])
-    socketio.emit('all numbers', {
-        'numbers': all_numbers
+    all_users.append(data['username'])
+    socketio.emit('chatroom', {
+        'numbers': all_numbers,
+        'username': all_users
     })
 if __name__ == '__main__':
     socketio.run(

@@ -10,15 +10,43 @@ html {
     margin-top: 1em;
     margin-bottom: 0.125em;
 }
-
 .number-item {
     background-color: green;
 }
 
 li {
-    color: red;
+    color: black;
+    list-style-type: none;
+    
+}
+li:before{
+   content: '';
+   display: inline-block;
+   height: 60;
+   width: 60;
+   background-image: url(tom2.jpg);
+}
+td, tr {
+    color: black;
+}
+tbody {
+    margin-bottom: 10;
 }
 
 #chats {
     background-color: white;
+}
+
+#chatBox {
+    overflow: auto;	
+	border: 1.5px solid black;
+    height: 400px;
+    width: 500px;
+    background-color: white;
+    color: black;
+}
+#images {
+    
+    border-top-left-radius:20px;
+    border-top-right-radius:20px;
 }

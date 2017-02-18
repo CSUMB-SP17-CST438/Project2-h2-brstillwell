@@ -13130,19 +13130,15 @@ var Content = exports.Content = function (_React$Component) {
                 React.createElement(
                     'h1',
                     null,
-                    'Random numbers: '
+                    'Chat Room: '
                 ),
                 React.createElement(_TextArea.TextArea, null),
-                React.createElement(_Button.Button, null),
                 React.createElement(
                     'div',
-                    { 'class': 'form-group' },
-                    React.createElement(
-                        'label',
-                        { 'for': 'comment' },
-                        'Comment:'
-                    ),
-                    React.createElement('textarea', { 'class': 'form-control', rows: '1', id: 'comment' })
+                    { className: 'form-group' },
+                    React.createElement('label', { htmlFor: 'comment' }),
+                    React.createElement('input', { type: 'text', placeholder: 'Type a message', id: 'comment' }),
+                    React.createElement(_Button.Button, null)
                 )
             );
         }
@@ -13281,13 +13277,12 @@ var Button = exports.Button = function (_React$Component) {
         value: function handleSubmit(event) {
             event.preventDefault();
             var text = document.getElementById('comment').value;
-            console.log(text);
-            var random = Math.floor(Math.random() * 100);
-            console.log('Generated a random number: ', text);
-            _Socket.Socket.emit('new number', {
-                'number': text
+            console.log('Text that was sent: ', text);
+            _Socket.Socket.emit('new message', {
+                'number': text,
+                'username': "TomBot"
             });
-            console.log('Sent up the random number to server!');
+            console.log('Sent up the text to server!');
         }
     }, {
         key: 'render',
@@ -13298,7 +13293,7 @@ var Button = exports.Button = function (_React$Component) {
                 React.createElement(
                     'button',
                     null,
-                    'Send up a random number!'
+                    'Send'
                 )
             );
         }
@@ -13344,7 +13339,9 @@ var TextArea = exports.TextArea = function (_React$Component) {
         var _this = _possibleConstructorReturn(this, (TextArea.__proto__ || Object.getPrototypeOf(TextArea)).call(this, props));
 
         _this.state = {
-            'numbers': []
+            'numbers': [],
+            'usernames': [],
+            'messages': []
         };
         return _this;
     }
@@ -13354,9 +13351,11 @@ var TextArea = exports.TextArea = function (_React$Component) {
         value: function componentDidMount() {
             var _this2 = this;
 
-            _Socket.Socket.on('all numbers', function (data) {
+            _Socket.Socket.on('chatroom', function (data) {
                 _this2.setState({
-                    'numbers': data['numbers']
+                    'numbers': data['numbers'],
+                    'usernames': data['username']
+
                 });
             });
         }
@@ -13365,19 +13364,54 @@ var TextArea = exports.TextArea = function (_React$Component) {
         value: function render() {
             var numbers = this.state.numbers.map(function (n, index) {
                 return React.createElement(
-                    'li',
+                    'td',
                     { key: index },
                     n
                 );
             });
+            var username = this.state.usernames.map(function (u, index) {
+                return React.createElement(
+                    'td',
+                    { key: index },
+                    u,
+                    ' says:'
+                );
+            });
+            function printMessages() {
+                console.log("this is the function i created - number: " + numbers.length);
+                var results = [];
+                for (var i = 0; i < numbers.length; i++) {
+                    results.push(React.createElement(
+                        'table',
+                        { key: i },
+                        React.createElement(
+                            'tbody',
+                            null,
+                            React.createElement(
+                                'tr',
+                                null,
+                                React.createElement(
+                                    'td',
+                                    { rowSpan: '2', id: 'images' },
+                                    React.createElement('img', { src: 'static/tom2.jpg' })
+                                ),
+                                username[i]
+                            ),
+                            React.createElement(
+                                'tr',
+                                null,
+                                numbers[i]
+                            )
+                        )
+                    ));
+                }
+                return results;
+            }
+
             return React.createElement(
                 'div',
-                { id: 'chats' },
-                React.createElement(
-                    'ul',
-                    null,
-                    numbers
-                )
+                { id: 'chatBox' },
+                printMessages()
             );
         }
     }]);
