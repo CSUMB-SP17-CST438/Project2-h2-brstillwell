@@ -13106,6 +13106,8 @@ var _Button = __webpack_require__(110);
 
 var _TextArea = __webpack_require__(111);
 
+var _Users = __webpack_require__(235);
+
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -13132,23 +13134,25 @@ var Content = exports.Content = function (_React$Component) {
                 React.createElement(
                     'h1',
                     null,
-                    'Chat Room: '
+                    'Chat Room:',
+                    React.createElement('div', {
+                        className: 'fb-login-button',
+                        'data-max-rows': '1',
+                        'data-size': 'medium',
+                        'data-show-faces': 'false',
+                        'data-auto-logout-link': 'true' })
                 ),
-                React.createElement(_ChatBot.ChatBot, null),
-                React.createElement('div', {
-                    className: 'fb-login-button',
-                    'data-max-rows': '1',
-                    'data-size': 'medium',
-                    'data-show-faces': 'false',
-                    'data-auto-logout-link': 'true' }),
+                React.createElement(_Users.Users, null),
                 React.createElement(_TextArea.TextArea, null),
+                React.createElement('span', { id: 'positionfix' }),
                 React.createElement(
                     'div',
                     { className: 'form-group' },
                     React.createElement('label', { htmlFor: 'comment' }),
                     React.createElement('input', { type: 'text', placeholder: 'Type a message', id: 'comment' }),
-                    React.createElement(_Button.Button, null)
-                )
+                    React.createElement(_Button.Button, { id: 'buttonSend' })
+                ),
+                React.createElement(_ChatBot.ChatBot, null)
             );
         }
     }]);
@@ -30430,7 +30434,7 @@ var ChatBot = exports.ChatBot = function (_React$Component) {
                         'type': 'Bot',
                         'name': "TomBot",
                         'picture': "static/tom2.jpg",
-                        'number': "commands: /\n/" + "about/\n/" + "say <something>"
+                        'number': "commands:/\n/" + "about/\n/" + "say <something>"
                     });
                 } else if (commands[1] == "say") {
                     var speak = "";
@@ -30452,6 +30456,115 @@ var ChatBot = exports.ChatBot = function (_React$Component) {
 
     return ChatBot;
 }(React.Component);
+
+/***/ }),
+/* 235 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.Users = undefined;
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(28);
+
+var React = _interopRequireWildcard(_react);
+
+var _Socket = __webpack_require__(64);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Users = exports.Users = function (_React$Component) {
+    _inherits(Users, _React$Component);
+
+    function Users(props) {
+        _classCallCheck(this, Users);
+
+        var _this = _possibleConstructorReturn(this, (Users.__proto__ || Object.getPrototypeOf(Users)).call(this, props));
+
+        _this.state = {
+            'numbers': []
+        };
+        return _this;
+    }
+
+    _createClass(Users, [{
+        key: 'componentDidMount',
+        value: function componentDidMount() {
+            var _this2 = this;
+
+            _Socket.Socket.on('userList', function (data) {
+                _this2.setState({
+                    'numbers': data['numbers']
+
+                });
+            });
+        }
+    }, {
+        key: 'render',
+        value: function render() {
+            var numbers = this.state.numbers.map(function (n, index) {
+                return React.createElement(
+                    'table',
+                    { key: index },
+                    React.createElement(
+                        'tbody',
+                        null,
+                        React.createElement(
+                            'tr',
+                            null,
+                            React.createElement(
+                                'td',
+                                { id: 'images2' },
+                                React.createElement('img', { src: n.picture })
+                            ),
+                            React.createElement(
+                                'td',
+                                { id: 'message2' },
+                                React.createElement(
+                                    'div',
+                                    { id: 'name' },
+                                    n.name
+                                )
+                            )
+                        )
+                    )
+                );
+            });
+            return React.createElement(
+                'div',
+                { id: 'userBox' },
+                React.createElement(
+                    'h1',
+                    null,
+                    'Current Users:'
+                ),
+                numbers
+            );
+        }
+    }]);
+
+    return Users;
+}(React.Component);
+/*FB.getLoginStatus((response) => {
+                        if (response.status == 'connected') {
+                            console.log("there is a new user");
+                            Socket.emit('new user', {
+                                'facebook_user_token': response.authResponse.accessToken
+                            });
+                        }
+                    });*/
 
 /***/ })
 /******/ ]);

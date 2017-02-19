@@ -1,6 +1,6 @@
 html {
     font-family: Helvetica, sans-serif;
-    background-color: blue;
+    background-color: black;
     color: white;
 }
 
@@ -14,17 +14,6 @@ html {
     background-color: green;
 }
 
-li {
-    color: black;
-    list-style-type: none;
-    
-}
-li:before{
-   content: '';
-   display: inline-block;
-   height: 60;
-   width: 60;
-}
 td, tr {
     color: black;
 }
@@ -32,16 +21,36 @@ tbody {
     margin-bottom: 10;
     
 }
+#comment {
+    /*right:370px;*/
+    width:400px;
+    float: left;
+    padding: 2.5px;
+    border: .5px solid black;;
+}
 
+#buttonSend {
+    float: right;
+}
+
+
+#userBox {
+    overflow: auto;
+    width: 300px;
+    height: 640px;
+    background-color: white;
+    float: left;
+    color: black;
+}
 
 #chatBox {
     overflow: auto;	
 	border: 3px solid black;
     height: 600px;
-    width: 800px;
+    width: 500px;
     background-color: white;
     background-image: url("http://besticons.net/sites/default/files/myspace-icons-786.png");
-    background-size: 800px;
+    background-size: 500px;
     color: black;
 }
 #images{
@@ -63,7 +72,8 @@ tbody {
     border-radius: 10px;
     border: 2px solid black;
     padding: 5px; 
-    width: 720px;
+    float: right;
+    width: 420px;
     background-color: white;
     background: rgba(255, 255, 255, .7); 
 }

@@ -21,7 +21,7 @@ export class ChatBot extends React.Component {
                     'type': 'Bot',
                     'name': "TomBot",
                     'picture': "static/tom2.jpg",
-                    'number': "commands: /\n/" +
+                    'number': "commands:/\n/" +
                                     "about/\n/" +
                                     "say <something>"
                 });
