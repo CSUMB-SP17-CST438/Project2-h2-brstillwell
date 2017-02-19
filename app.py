@@ -14,8 +14,6 @@ import models
 
 # URI scheme: postgresql://<username>:<password>@<hostname>:<port>/<database-name>
 #app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://admin:admin@localhost/postgres'
-app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL')
-db = flask_sqlalchemy.SQLAlchemy(app)
 
 
 def usersOn():
