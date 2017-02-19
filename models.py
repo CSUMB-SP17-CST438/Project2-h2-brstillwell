@@ -1,5 +1,5 @@
 # models.py
-import flask_sqlalchemy, app
+import flask_sqlalchemy, app, os
 
 #app.app.config['SQLALCHEMY_DATABASE_URI'] = \
 #'postgresql://admin:admin@localhost/postgres'
