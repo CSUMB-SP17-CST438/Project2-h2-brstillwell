@@ -21,12 +21,6 @@ export class TextArea extends React.Component {
     }
 
     render() {
-        /*let numbers = this.state.numbers.map(
-            (n, index) => <td key={index}>{n}</td>
-        );
-        let username = this.state.usernames.map(
-            (u, index) => <td key={index}>{u} says:</td>
-        );*/
         let numbers = this.state.numbers.map((n, index) =>
         <table key={index}>
             <tbody >
@@ -34,42 +28,19 @@ export class TextArea extends React.Component {
                     <td rowSpan="2" id="images">
                         <img src={n.picture}/>
                     </td>
-                    <td>
-                        {n.name} says:
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        {n.number}
+                        <td id="message">
+                            <div  id="name">
+                                {n.name} says:
+                            </div>
+                        <br />
+                        <div>
+                            {n.number}&nbsp;
+                        </div>
                     </td>
                 </tr>
             </tbody>
         </table>
          );
-
-        /*function printMessages() {
-            console.log("this is the function i created - number: " + numbers.length)
-            var results = [];
-            for (var i=0; i < numbers.length; i++) {
-                results.push(
-                    
-                <table key={i}>
-                    <tbody>
-                        <tr>
-                            <td rowSpan="2" id="images">
-                                <img src="static/tom2.jpg"/>
-                            </td>
-                            {username[i]}
-                        </tr>
-                        <tr>
-                            {numbers[i]}
-
-                        </tr>
-                    </tbody>
-                </table>)
-            }
-            return results;
-        }*/
         
         return(
         <div id="chatBox">

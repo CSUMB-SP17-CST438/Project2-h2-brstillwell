@@ -1,6 +1,6 @@
 html {
     font-family: Helvetica, sans-serif;
-    background-color: black;
+    background-color: blue;
     color: white;
 }
 
@@ -24,29 +24,46 @@ li:before{
    display: inline-block;
    height: 60;
    width: 60;
-   background-image: url(tom2.jpg);
 }
 td, tr {
     color: black;
 }
 tbody {
     margin-bottom: 10;
+    
 }
 
-#chats {
-    background-color: white;
-}
 
 #chatBox {
     overflow: auto;	
-	border: 1.5px solid black;
-    height: 400px;
-    width: 500px;
+	border: 3px solid black;
+    height: 600px;
+    width: 800px;
     background-color: white;
+    background-image: url("http://besticons.net/sites/default/files/myspace-icons-786.png");
+    background-size: 800px;
     color: black;
 }
-#images {
+#images{
     
-    border-top-left-radius:20px;
-    border-top-right-radius:20px;
+    border-top-left-radius:10px;
+    border-top-right-radius:10px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    background-color: white;
+}
+
+#name {
+    font-size: .7em;
+    color: #212121;
+    
+}
+#message
+{
+    border-radius: 10px;
+    border: 2px solid black;
+    padding: 5px; 
+    width: 720px;
+    background-color: white;
+    background: rgba(255, 255, 255, .7); 
 }

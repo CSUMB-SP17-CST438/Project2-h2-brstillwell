@@ -1,5 +1,6 @@
 import * as React from 'react';
 
+import { ChatBot } from './ChatBot';
 import { Button } from './Button';
 import { TextArea } from './TextArea';
 
@@ -8,6 +9,7 @@ export class Content extends React.Component {
         return (
             <div>
                 <h1>Chat Room: </h1>
+                <ChatBot />
                     <div
                          className="fb-login-button"
                          data-max-rows="1"

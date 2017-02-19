@@ -13100,6 +13100,8 @@ var _react = __webpack_require__(28);
 
 var React = _interopRequireWildcard(_react);
 
+var _ChatBot = __webpack_require__(234);
+
 var _Button = __webpack_require__(110);
 
 var _TextArea = __webpack_require__(111);
@@ -13132,6 +13134,7 @@ var Content = exports.Content = function (_React$Component) {
                     null,
                     'Chat Room: '
                 ),
+                React.createElement(_ChatBot.ChatBot, null),
                 React.createElement('div', {
                     className: 'fb-login-button',
                     'data-max-rows': '1',
@@ -13261,6 +13264,8 @@ var React = _interopRequireWildcard(_react);
 
 var _Socket = __webpack_require__(64);
 
+var _ChatBot = __webpack_require__(234);
+
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -13284,19 +13289,22 @@ var Button = exports.Button = function (_React$Component) {
             event.preventDefault();
             var text = document.getElementById('comment').value;
             console.log('Text that was sent: ', text);
-            /*Socket.emit('new message', {
-                'number': text,
-                'username': "TomBot"
-            });*/
-            console.log('Sent up the text to server!');
             FB.getLoginStatus(function (response) {
                 if (response.status == 'connected') {
                     _Socket.Socket.emit('new message', {
+                        'type': "facebook",
                         'facebook_user_token': response.authResponse.accessToken,
                         'number': text
                     });
                 }
             });
+            var toBot = text.split(' ');
+            if (toBot[0] == "!!") {
+                console.log("text should go to bot");
+                var Bot = __webpack_require__(234);
+                Bot.ChattyBot(text);
+            }
+            document.getElementById('comment').value = "";
         }
     }, {
         key: 'render',
@@ -13373,12 +13381,6 @@ var TextArea = exports.TextArea = function (_React$Component) {
     }, {
         key: 'render',
         value: function render() {
-            /*let numbers = this.state.numbers.map(
-                (n, index) => <td key={index}>{n}</td>
-            );
-            let username = this.state.usernames.map(
-                (u, index) => <td key={index}>{u} says:</td>
-            );*/
             var numbers = this.state.numbers.map(function (n, index) {
                 return React.createElement(
                     'table',
@@ -13396,46 +13398,25 @@ var TextArea = exports.TextArea = function (_React$Component) {
                             ),
                             React.createElement(
                                 'td',
-                                null,
-                                n.name,
-                                ' says:'
-                            )
-                        ),
-                        React.createElement(
-                            'tr',
-                            null,
-                            React.createElement(
-                                'td',
-                                null,
-                                n.number
+                                { id: 'message' },
+                                React.createElement(
+                                    'div',
+                                    { id: 'name' },
+                                    n.name,
+                                    ' says:'
+                                ),
+                                React.createElement('br', null),
+                                React.createElement(
+                                    'div',
+                                    null,
+                                    n.number,
+                                    '\xA0'
+                                )
                             )
                         )
                     )
                 );
             });
-
-            /*function printMessages() {
-                console.log("this is the function i created - number: " + numbers.length)
-                var results = [];
-                for (var i=0; i < numbers.length; i++) {
-                    results.push(
-                        
-                    <table key={i}>
-                        <tbody>
-                            <tr>
-                                <td rowSpan="2" id="images">
-                                    <img src="static/tom2.jpg"/>
-                                </td>
-                                {username[i]}
-                            </tr>
-                            <tr>
-                                {numbers[i]}
-                             </tr>
-                        </tbody>
-                    </table>)
-                }
-                return results;
-            }*/
 
             return React.createElement(
                 'div',
@@ -30393,6 +30374,84 @@ var _Content = __webpack_require__(105);
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 ReactDOM.render(React.createElement(_Content.Content, null), document.getElementById('content'));
+
+/***/ }),
+/* 234 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.ChatBot = undefined;
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(28);
+
+var React = _interopRequireWildcard(_react);
+
+var _Socket = __webpack_require__(64);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var ChatBot = exports.ChatBot = function (_React$Component) {
+    _inherits(ChatBot, _React$Component);
+
+    function ChatBot() {
+        _classCallCheck(this, ChatBot);
+
+        return _possibleConstructorReturn(this, (ChatBot.__proto__ || Object.getPrototypeOf(ChatBot)).apply(this, arguments));
+    }
+
+    _createClass(ChatBot, [{
+        key: 'render',
+        value: function render() {
+            var Bot = function ChattyBot(text) {
+                var commands = text.split(' ');
+                console.log("this is the correct function");
+                if (commands[1] == "about") {
+                    _Socket.Socket.emit('new message', {
+                        'type': 'Bot',
+                        'name': "TomBot",
+                        'picture': "static/tom2.jpg",
+                        'number': "Myspace is better"
+                    });
+                } else if (commands[1] == "help") {
+                    _Socket.Socket.emit('new message', {
+                        'type': 'Bot',
+                        'name': "TomBot",
+                        'picture': "static/tom2.jpg",
+                        'number': "commands: /\n/" + "about/\n/" + "say <something>"
+                    });
+                } else if (commands[1] == "say") {
+                    var speak = "";
+                    for (var i = 2; i < commands.length; i++) {
+                        speak = speak + " " + commands[i];
+                    }
+                    _Socket.Socket.emit('new message', {
+                        'type': 'Bot',
+                        'name': "TomBot",
+                        'picture': "static/tom2.jpg",
+                        'number': speak
+                    });
+                }
+            };
+            module.exports.ChattyBot = Bot;
+            return React.createElement('p', null);
+        }
+    }]);
+
+    return ChatBot;
+}(React.Component);
 
 /***/ })
 /******/ ]);
