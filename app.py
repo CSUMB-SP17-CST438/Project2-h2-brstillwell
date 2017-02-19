@@ -74,6 +74,7 @@ def on_new_user(data):
 
 @socketio.on('new message')
 def on_new_number(data):
+    print " made it to the new message"
     if data['type'] == 'Bot':
         newRecord = models.ChatRoom(data['name'], data['picture'], data['number'])
         db.session.add(newRecord)
@@ -85,6 +86,7 @@ def on_new_number(data):
         newRecord = models.ChatRoom(json['name'], json['picture']['data']['url'], data['number'])
         db.session.add(newRecord)
         db.session.commit()
+    print "I am about to query this statement"
     chats = models.ChatRoom.query.all()
     chatlog = []
     for c in chats:
