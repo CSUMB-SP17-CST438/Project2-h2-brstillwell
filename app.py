@@ -2,12 +2,20 @@ import os
 import flask
 import flask_socketio
 import requests
+import flask_sqlalchemy
 
 app = flask.Flask(__name__)
 socketio = flask_socketio.SocketIO(app)
-all_numbers = [];
+#all_numbers = [];
 all_users = [];
 users = 0;
+
+import models 
+
+# URI scheme: postgresql://<username>:<password>@<hostname>:<port>/<database-name>
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://admin:admin@localhost/postgres'
+db = flask_sqlalchemy.SQLAlchemy(app)
+
 
 def usersOn():
     if users != None:
@@ -28,12 +36,6 @@ def usersOff():
     
 @app.route('/')
 def hello():
-    global something
-    something = 0
-    if something == 0:
-        socketio.emit('chatroom', {
-        'numbers': all_numbers
-    })
     return flask.render_template('index.html')
             
 @app.route('/chatroom')
@@ -72,22 +74,26 @@ def on_new_user(data):
 @socketio.on('new message')
 def on_new_number(data):
     if data['type'] == 'Bot':
-        all_numbers.append({
-         'name': data['name'],
-         'picture': data['picture'],
-         'number': data['number']
-         })
+        newRecord = models.ChatRoom(data['name'], data['picture'], data['number'])
+        db.session.add(newRecord)
+        db.session.commit()
     else:
         response = requests.get(
             'https://graph.facebook.com/v2.8/me?fields=id%2Cname%2Cpicture&access_token=' + data['facebook_user_token'])
         json = response.json()
-        all_numbers.append({
-             'name': json['name'],
-             'picture': json['picture']['data']['url'],
-             'number': data['number']
-             })
+        newRecord = models.ChatRoom(json['name'], json['picture']['data']['url'], data['number'])
+        db.session.add(newRecord)
+        db.session.commit()
+    chats = models.ChatRoom.query.all()
+    chatlog = []
+    for c in chats:
+        chatlog.append({
+            'name': c.user,
+            'picture': c.image,
+            'number': c.message
+            })
     socketio.emit('chatroom', {
-        'numbers': all_numbers
+        'numbers': chatlog
     })
     
 if __name__ == '__main__':
