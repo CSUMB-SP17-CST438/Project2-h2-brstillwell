@@ -30440,14 +30440,14 @@ var ChatBot = exports.ChatBot = function (_React$Component) {
                     _Socket.Socket.emit('new message', {
                         'type': 'Bot',
                         'name': "TomBot",
-                        'picture': "static/tom2.jpg",
+                        'picture': "static/img/tom2.jpg",
                         'number': "Myspace is better"
                     });
                 } else if (commands[1] == "help") {
                     _Socket.Socket.emit('new message', {
                         'type': 'Bot',
                         'name': "TomBot",
-                        'picture': "static/tom2.jpg",
+                        'picture': "static/img/tom2.jpg",
                         'number': "commands:/\n/" + "about/\n/" + "say <something>"
                     });
                 } else if (commands[1] == "say") {
@@ -30458,7 +30458,7 @@ var ChatBot = exports.ChatBot = function (_React$Component) {
                     _Socket.Socket.emit('new message', {
                         'type': 'Bot',
                         'name': "TomBot",
-                        'picture': "static/tom2.jpg",
+                        'picture': "static/img/tom2.jpg",
                         'number': speak
                     });
                 } else if (commands[1] == "weather") {
@@ -30466,16 +30466,23 @@ var ChatBot = exports.ChatBot = function (_React$Component) {
                     _Socket.Socket.emit('new message', {
                         'type': 'weather',
                         'name': "TomBot",
-                        'picture': "static/tom2.jpg",
+                        'picture': "static/img/tom2.jpg",
                         'number': "Here is the weather"
                     });
                 } else if (commands[1] == "gif") {
                     console.log("this is the gif");
                     _Socket.Socket.emit('new message', {
-                        'type': 'gif',
+                        'type': 'Bot',
                         'name': 'TomBot',
-                        'picture': "static/tom2.jpg",
+                        'picture': "static/img/tom2.jpg",
                         'number': "https://68.media.tumblr.com/b21481bb5d888c0df2163016294b0d83/tumblr_ola9cs6wTI1tx9mwqo1_500.gif"
+                    });
+                } else {
+                    _Socket.Socket.emit('new message', {
+                        'type': 'Bot',
+                        'name': 'TomBot',
+                        'picture': "static/img/tom2.jpg",
+                        'number': "Unrecognized command: " + text
                     });
                 }
             };

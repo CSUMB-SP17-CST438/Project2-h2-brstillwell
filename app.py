@@ -12,8 +12,8 @@ users = 0;
 
 import models 
 
-#app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://admin:admin@localhost/postgres'
-app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL')
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://admin:admin@localhost/postgres'
+#app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL')
 
 db = flask_sqlalchemy.SQLAlchemy(app)
 
@@ -66,7 +66,7 @@ def on_new_user(data):
          #'name': data['name'],
          #'picture': data['picture']
          'name': "TomBot",
-         'picture': "static/tom2.jpg"
+         'picture': "static/img/tom2.jpg"
          })
     socketio.emit('userList', {
         'numbers': all_users
@@ -80,8 +80,6 @@ def on_new_number(data):
         db.session.add(newRecord)
         db.session.commit()
     elif data['type'] == 'weather':
-        print "made it to the weather part"
-        url = ""
         response = requests.get('http://api.openweathermap.org/data/2.5/weather?q=Marina&APPID=375a6ab765b60a9834b31204e67b8c08')
         json_body = response.json()
         newRecord = models.ChatRoom(data['name'], data['picture'], "Weather in Marina, CA: " + json_body['weather'][0]['description'])

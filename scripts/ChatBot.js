@@ -11,7 +11,7 @@ export class ChatBot extends React.Component {
                 Socket.emit('new message', {
                     'type': 'Bot',
                     'name': "TomBot",
-                    'picture': "static/tom2.jpg",
+                    'picture': "static/img/tom2.jpg",
                     'number': "Myspace is better"
                 });
             }
@@ -20,7 +20,7 @@ export class ChatBot extends React.Component {
                 Socket.emit('new message', {
                     'type': 'Bot',
                     'name': "TomBot",
-                    'picture': "static/tom2.jpg",
+                    'picture': "static/img/tom2.jpg",
                     'number': "commands:/\n/" +
                                     "about/\n/" +
                                     "say <something>"
@@ -36,7 +36,7 @@ export class ChatBot extends React.Component {
                 Socket.emit('new message', {
                     'type': 'Bot',
                     'name': "TomBot",
-                    'picture': "static/tom2.jpg",
+                    'picture': "static/img/tom2.jpg",
                     'number': speak
                 });
             }
@@ -46,7 +46,7 @@ export class ChatBot extends React.Component {
                 Socket.emit('new message', {
                     'type': 'weather',
                     'name': "TomBot",
-                    'picture': "static/tom2.jpg",
+                    'picture': "static/img/tom2.jpg",
                     'number': "Here is the weather"
                 });
             }
@@ -54,10 +54,19 @@ export class ChatBot extends React.Component {
             {
                 console.log("this is the gif");
                 Socket.emit('new message' , {
-                    'type': 'gif',
+                    'type': 'Bot',
                     'name': 'TomBot',
-                    'picture': "static/tom2.jpg",
+                    'picture': "static/img/tom2.jpg",
                     'number': "https://68.media.tumblr.com/b21481bb5d888c0df2163016294b0d83/tumblr_ola9cs6wTI1tx9mwqo1_500.gif"
+                })
+            }
+            else
+            {
+                Socket.emit('new message' , {
+                    'type': 'Bot',
+                    'name': 'TomBot',
+                    'picture': "static/img/tom2.jpg",
+                    'number': "Unrecognized command: " + text
                 })
             }
         };
