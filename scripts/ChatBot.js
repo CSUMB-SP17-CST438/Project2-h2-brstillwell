@@ -21,9 +21,19 @@ export class ChatBot extends React.Component {
                     'type': 'Bot',
                     'name': "TomBot",
                     'picture': "static/img/tom2.jpg",
-                    'number': "commands:/\n/" +
-                                    "about/\n/" +
-                                    "say <something>"
+                    'number': "!! say: Make bot say something"
+                });
+                Socket.emit('new message', {
+                    'type': 'Bot',
+                    'name': "TomBot",
+                    'picture': "static/img/tom2.jpg",
+                    'number': "!! about: Tells about the bot"
+                });
+                Socket.emit('new message', {
+                    'type': 'Bot',
+                    'name': "TomBot",
+                    'picture': "static/img/tom2.jpg",
+                    'number': "!! weather: Gives current weather forecast"
                 });
             }
             else if (commands[1] == "say")

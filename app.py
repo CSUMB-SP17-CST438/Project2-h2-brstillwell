@@ -3,6 +3,7 @@ import flask
 import flask_socketio
 import requests
 import flask_sqlalchemy
+from sqlalchemy import text
 
 app = flask.Flask(__name__)
 socketio = flask_socketio.SocketIO(app)
@@ -26,6 +27,7 @@ def usersOn():
         global users
         users = 1;
     print users
+    countUser(users)
 def usersOff():
     if users != None:
         if users >= 0:
@@ -34,23 +36,33 @@ def usersOff():
         global users
         users = 0;
     print users
+    countUser(users)
     
 @app.route('/')
 def hello():
     return flask.render_template('index.html')
             
-@app.route('/chatroom')
-def chat():
-    return flask.render_template('index.html')
     
-socketio.on('getUsers')
-def countUser():
-    socketio.emit('usersCount', users)
+def countUser(q):
+    print "here to get the users = " + str(q)
+    socketio.emit('usersCount', q)
 
 @socketio.on('connect')
 def on_connect():
     usersOn()
+    chats = models.ChatRoom.query.all()
+    chatlog = []
+    for c in chats:
+        chatlog.append({
+            'name': c.user,
+            'picture': c.image,
+            'number': c.message
+            })
+    socketio.emit('chatroom', {
+        'numbers': chatlog
+    })
     print 'Someone connected!'
+    
 
 @socketio.on('disconnect')
 def on_disconnect():
@@ -94,22 +106,44 @@ def on_new_number(data):
                 'https://graph.facebook.com/v2.8/me?fields=id%2Cname%2Cpicture&access_token=' + data['facebook_user_token'])
             json = response.json()
             newRecord = models.ChatRoom(json['name'], json['picture']['data']['url'], data['number'])
+            newUser = models.Users(json['name'], json['picture']['data']['url'])
+            sql = text("select * from users where user = '" + newUser.user + "'")
+            result = db.engine.execute(sql)
+            print "result = "
+            names = []
+            for row in result:
+                names.append(row[0])
+            
+            print names
+            #db.session.add(newUser)
         else:
             response = requests.get(
                 'https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=' + data['google_user_token'])
             json = response.json()
             newRecord = models.ChatRoom(json['name'], json['picture'], data['number'])
+            newUser = models.Users(json['name'], json['picture']['data']['url'])
+            #db.session.add(newUser)
         db.session.add(newRecord)
         db.session.commit()
     print "I am about to query this statement"
     chats = models.ChatRoom.query.all()
+    currentUsers = models.Users.query.all()
     chatlog = []
+    userlog = []
     for c in chats:
         chatlog.append({
             'name': c.user,
             'picture': c.image,
             'number': c.message
             })
+    for u in currentUsers:
+        userlog.append({
+            'name': u.user,
+            'picture': u.image
+        })
+    socketio.emit('userList', {
+        'numbers': userlog
+    })
     socketio.emit('chatroom', {
         'numbers': chatlog
     })

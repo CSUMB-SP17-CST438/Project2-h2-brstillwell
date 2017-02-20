@@ -18,6 +18,7 @@ export class Users extends React.Component {
             });
         })
     }
+    
     render(){
         let numbers = this.state.numbers.map((n, index) =>
         <table key={index}>
@@ -36,8 +37,7 @@ export class Users extends React.Component {
         </table>
          );
         return(
-            <div id="userBox">
-            <h1>Current Users:</h1>
+            <div>
                 {numbers}
             </div>
             );

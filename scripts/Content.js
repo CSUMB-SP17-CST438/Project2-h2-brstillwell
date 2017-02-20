@@ -4,6 +4,7 @@ import { ChatBot } from './ChatBot';
 import { Button } from './Button';
 import { TextArea } from './TextArea';
 import { Users } from './Users';
+import { CurrentUsers } from './CurrentUsers';
 
 export class Content extends React.Component {
     render() {
@@ -22,12 +23,16 @@ export class Content extends React.Component {
                         data-theme="dark">
                     </div>
                      </h1>
-                <Users />
+                     <div id="userBox">
+                     <CurrentUsers />
+                    <Users />
+                    </div>
                 <TextArea />
                 <span id="positionfix" />
                 <div className="form-group">
                     <label htmlFor="comment"></label>
-                        <input type="text" placeholder="Type a message" id="comment"/> 
+                        <input type="text" placeholder="Type a message" id="comment" /> 
+                        
                     <Button id="buttonSend"/>
                 </div>
               
