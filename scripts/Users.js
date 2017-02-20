@@ -24,7 +24,7 @@ export class Users extends React.Component {
             <tbody >
                 <tr>
                     <td id="images2">
-                        <img src={n.picture}/>
+                        <img src={n.picture} id="avatar"/>
                     </td>
                         <td id="message2">
                             <div  id="name">

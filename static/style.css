@@ -77,3 +77,9 @@ tbody {
     background-color: white;
     background: rgba(255, 255, 255, .7); 
 }
+
+#avatar
+{
+    width: 50px;
+    border-radius: 10px;
+}

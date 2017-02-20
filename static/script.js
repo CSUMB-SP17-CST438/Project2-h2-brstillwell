@@ -13138,9 +13138,12 @@ var Content = exports.Content = function (_React$Component) {
                     React.createElement('div', {
                         className: 'fb-login-button',
                         'data-max-rows': '1',
-                        'data-size': 'medium',
+                        'data-size': 'large',
                         'data-show-faces': 'false',
-                        'data-auto-logout-link': 'true' })
+                        'data-auto-logout-link': 'true' }),
+                    React.createElement('div', {
+                        className: 'g-signin2',
+                        'data-theme': 'dark' })
                 ),
                 React.createElement(_Users.Users, null),
                 React.createElement(_TextArea.TextArea, null),
@@ -13300,6 +13303,17 @@ var Button = exports.Button = function (_React$Component) {
                         'facebook_user_token': response.authResponse.accessToken,
                         'number': text
                     });
+                } else {
+                    var auth = gapi.auth2.getAuthInstance();
+                    var user = auth.currentUser.get();
+                    if (user.isSignedIn()) {
+                        _Socket.Socket.emit('new message', {
+                            'type': "google",
+                            'google_user_token': user.getAuthResponse().id_token,
+                            'facebook_user_token': '',
+                            'number': text
+                        });
+                    }
                 }
             });
             var toBot = text.split(' ');
@@ -13398,7 +13412,7 @@ var TextArea = exports.TextArea = function (_React$Component) {
                             React.createElement(
                                 'td',
                                 { rowSpan: '2', id: 'images' },
-                                React.createElement('img', { src: n.picture })
+                                React.createElement('img', { src: n.picture, id: 'avatar' })
                             ),
                             React.createElement(
                                 'td',
@@ -30447,6 +30461,22 @@ var ChatBot = exports.ChatBot = function (_React$Component) {
                         'picture': "static/tom2.jpg",
                         'number': speak
                     });
+                } else if (commands[1] == "weather") {
+                    console.log("weather chatbot");
+                    _Socket.Socket.emit('new message', {
+                        'type': 'weather',
+                        'name': "TomBot",
+                        'picture': "static/tom2.jpg",
+                        'number': "Here is the weather"
+                    });
+                } else if (commands[1] == "gif") {
+                    console.log("this is the gif");
+                    _Socket.Socket.emit('new message', {
+                        'type': 'gif',
+                        'name': 'TomBot',
+                        'picture': "static/tom2.jpg",
+                        'number': "https://68.media.tumblr.com/b21481bb5d888c0df2163016294b0d83/tumblr_ola9cs6wTI1tx9mwqo1_500.gif"
+                    });
                 }
             };
             module.exports.ChattyBot = Bot;
@@ -30527,7 +30557,7 @@ var Users = exports.Users = function (_React$Component) {
                             React.createElement(
                                 'td',
                                 { id: 'images2' },
-                                React.createElement('img', { src: n.picture })
+                                React.createElement('img', { src: n.picture, id: 'avatar' })
                             ),
                             React.createElement(
                                 'td',

@@ -13,10 +13,14 @@ export class Content extends React.Component {
                     <div
                          className="fb-login-button"
                          data-max-rows="1"
-                         data-size="medium"
+                         data-size="large"
                          data-show-faces="false"
                          data-auto-logout-link="true">
                      </div>
+                     <div
+                        className="g-signin2"
+                        data-theme="dark">
+                    </div>
                      </h1>
                 <Users />
                 <TextArea />
@@ -26,6 +30,7 @@ export class Content extends React.Component {
                         <input type="text" placeholder="Type a message" id="comment"/> 
                     <Button id="buttonSend"/>
                 </div>
+              
                 <ChatBot />
             </div>
         );

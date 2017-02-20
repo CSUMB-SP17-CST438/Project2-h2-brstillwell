@@ -26,7 +26,7 @@ export class TextArea extends React.Component {
             <tbody >
                 <tr>
                     <td rowSpan="2" id="images">
-                        <img src={n.picture}/>
+                        <img src={n.picture} id="avatar"/>
                     </td>
                         <td id="message">
                             <div  id="name">

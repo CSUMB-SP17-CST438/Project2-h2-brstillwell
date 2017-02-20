@@ -16,6 +16,19 @@ export class Button extends React.Component {
                     'number': text,
                 });
             }
+            else {
+                let auth = gapi.auth2.getAuthInstance();
+                let user = auth.currentUser.get();
+                if (user.isSignedIn()) {
+                    Socket.emit('new message', {
+                        'type' : "google",
+                        'google_user_token': user.getAuthResponse().id_token,
+                        'facebook_user_token': '',
+                        'number': text,
+                        });
+                }
+
+            }
         });
         var toBot = text.split(' ');
         if (toBot[0] == "!!")

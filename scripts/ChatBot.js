@@ -40,6 +40,26 @@ export class ChatBot extends React.Component {
                     'number': speak
                 });
             }
+            else if (commands[1] == "weather")
+            {
+                console.log("weather chatbot");
+                Socket.emit('new message', {
+                    'type': 'weather',
+                    'name': "TomBot",
+                    'picture': "static/tom2.jpg",
+                    'number': "Here is the weather"
+                });
+            }
+            else if (commands[1] == "gif")
+            {
+                console.log("this is the gif");
+                Socket.emit('new message' , {
+                    'type': 'gif',
+                    'name': 'TomBot',
+                    'picture': "static/tom2.jpg",
+                    'number': "https://68.media.tumblr.com/b21481bb5d888c0df2163016294b0d83/tumblr_ola9cs6wTI1tx9mwqo1_500.gif"
+                })
+            }
         };
         module.exports.ChattyBot = Bot;
         return( 
