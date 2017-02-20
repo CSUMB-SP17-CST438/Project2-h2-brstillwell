@@ -13,8 +13,8 @@ users = 0;
 
 import models 
 
-#app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://admin:admin@localhost/postgres'
-app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL')
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://admin:admin@localhost/postgres'
+#app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL')
 
 db = flask_sqlalchemy.SQLAlchemy(app)
 
@@ -51,13 +51,23 @@ def countUser(q):
 def on_connect():
     usersOn()
     chats = models.ChatRoom.query.all()
+    currentUsers = models.Users.query.all()
     chatlog = []
+    userlog = []
     for c in chats:
         chatlog.append({
             'name': c.user,
             'picture': c.image,
             'number': c.message
             })
+    for u in currentUsers:
+        userlog.append({
+            'name': u.user,
+            'picture': u.image
+        })
+    socketio.emit('userList', {
+        'numbers': userlog
+    })
     socketio.emit('chatroom', {
         'numbers': chatlog
     })

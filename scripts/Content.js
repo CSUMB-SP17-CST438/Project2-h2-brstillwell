@@ -9,7 +9,7 @@ import { CurrentUsers } from './CurrentUsers';
 export class Content extends React.Component {
     render() {
         return (
-            <div>
+            <div id="UI">
                 <h1>Chat Room: 
                     <div
                          className="fb-login-button"
@@ -22,18 +22,15 @@ export class Content extends React.Component {
                         className="g-signin2"
                         data-theme="dark">
                     </div>
-                     </h1>
-                     <div id="userBox">
-                     <CurrentUsers />
-                    <Users />
+                </h1>
+                <div id="content">
+                    <div id="userBox">
+                        <CurrentUsers />
+                        <Users />
                     </div>
-                <TextArea />
-                <span id="positionfix" />
-                <div className="form-group">
-                    <label htmlFor="comment"></label>
+                    <TextArea />
                         <input type="text" placeholder="Type a message" id="comment" /> 
-                        
-                    <Button id="buttonSend"/>
+                        <Button id="buttonWrapper"/>
                 </div>
               
                 <ChatBot />

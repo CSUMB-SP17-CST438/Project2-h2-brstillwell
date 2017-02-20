@@ -46,7 +46,7 @@ export class Button extends React.Component {
     render() {
         return (
             <form onSubmit={this.handleSubmit}>
-                <button>Send</button>
+                <button id="buttonSend">Send</button>
             </form>
         );
     }

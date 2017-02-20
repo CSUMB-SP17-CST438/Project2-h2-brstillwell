@@ -13245,7 +13245,7 @@ var Content = exports.Content = function (_React$Component) {
         value: function render() {
             return React.createElement(
                 'div',
-                null,
+                { id: 'UI' },
                 React.createElement(
                     'h1',
                     null,
@@ -13262,18 +13262,16 @@ var Content = exports.Content = function (_React$Component) {
                 ),
                 React.createElement(
                     'div',
-                    { id: 'userBox' },
-                    React.createElement(_CurrentUsers.CurrentUsers, null),
-                    React.createElement(_Users.Users, null)
-                ),
-                React.createElement(_TextArea.TextArea, null),
-                React.createElement('span', { id: 'positionfix' }),
-                React.createElement(
-                    'div',
-                    { className: 'form-group' },
-                    React.createElement('label', { htmlFor: 'comment' }),
+                    { id: 'content' },
+                    React.createElement(
+                        'div',
+                        { id: 'userBox' },
+                        React.createElement(_CurrentUsers.CurrentUsers, null),
+                        React.createElement(_Users.Users, null)
+                    ),
+                    React.createElement(_TextArea.TextArea, null),
                     React.createElement('input', { type: 'text', placeholder: 'Type a message', id: 'comment' }),
-                    React.createElement(_Button.Button, { id: 'buttonSend' })
+                    React.createElement(_Button.Button, { id: 'buttonWrapper' })
                 ),
                 React.createElement(_ChatBot.ChatBot, null)
             );
@@ -13452,7 +13450,7 @@ var Button = exports.Button = function (_React$Component) {
                 { onSubmit: this.handleSubmit },
                 React.createElement(
                     'button',
-                    null,
+                    { id: 'buttonSend' },
                     'Send'
                 )
             );
@@ -13513,7 +13511,7 @@ var CurrentUsers = exports.CurrentUsers = function (_React$Component) {
                 _this2.setState({
                     'current': data
                 });
-                console.log("This is the number: " + data['users']);
+                console.log("This is the number: " + data);
             });
         }
     }, {

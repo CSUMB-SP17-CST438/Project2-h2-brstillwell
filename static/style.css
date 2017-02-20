@@ -4,6 +4,11 @@ html {
     color: white;
 }
 
+#UI {
+    margin: auto;
+    position: absolute;
+    right: 15%;
+}
 .heading {
     font-size: 3em;
     text-shadow: 0 0 2em red;
@@ -21,36 +26,51 @@ tbody {
     margin-bottom: 10;
     
 }
+
+#content {
+    background-color: white;
+    border: 4px;
+    
+}
 #comment {
     /*right:370px;*/
-    width:400px;
+    width:700px;
+    height: 35px;
     float: left;
-    padding: 2.5px;
-    border: .5px solid black;;
+    padding: 4px;
+    border: 2.5px solid white;
 }
 
-#buttonSend {
+#buttonWrapper {
     float: right;
+}
+#buttonSend {
+    height: 35px;
+    width: 100px;
 }
 
 
 #userBox {
     overflow: auto;
     width: 300px;
-    height: 640px;
-    background-color: #57719b;
+    height: 627px;
+    background-color: #bbbaff;
+    border: 3px solid white;
+    background-size: 300px;
+    background-position: 50% 79%;
     float: left;
     color: black;
+    padding: 4;
 }
 
 #chatBox {
     overflow: auto;	
-	border: 3px solid black;
+	border: 3px solid white;
     height: 600px;
-    width: 500px;
+    width: 800px;
     background-color: white;
     background-image: url("img/myspace.png");
-    background-size: 500px;
+    background-size: 800px;
     color: black;
 }
 #images{
@@ -73,7 +93,7 @@ tbody {
     border: 2px solid black;
     padding: 5px; 
     float: right;
-    width: 420px;
+    width: 710px;
     background-color: white;
     background: rgba(255, 255, 255, .7); 
 }
