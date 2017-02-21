@@ -21,12 +21,14 @@ class ChatRoom(db.Model):
         return '%s' % self.user + '|><|%s' % self.image + '|><|%s' % self.message
         
 class Users(db.Model):
-    user = db.Column(db.String(120), primary_key=True)
-    image = db.Column(db.String(200), primary_key=True)
+    user = db.Column(db.String(120), primary_key = True)
+    image = db.Column(db.String(200), primary_key = True)
+    id = db.Column(db.String(120), primary_key = True) # session id
     
-    def __init__(self, u, i):
+    def __init__(self, u, i, ii):
         self.user = u
         self.image = i
+        self.id = ii
     
     def __repr__(self): # what's __repr__?
         return '%s' % self.user + '|><|%s' % self.image

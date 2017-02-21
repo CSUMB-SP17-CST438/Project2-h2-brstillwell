@@ -15,7 +15,6 @@ export class CurrentUsers extends React.Component {
             this.setState({
                 'current': data
             });
-            console.log("This is the number: " + data)
         })
     }
     

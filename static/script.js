@@ -5832,7 +5832,6 @@ var ChatBot = exports.ChatBot = function (_React$Component) {
         value: function render() {
             var Bot = function ChattyBot(text) {
                 var commands = text.split(' ');
-                console.log("this is the correct function");
                 if (commands[1] == "about") {
                     _Socket.Socket.emit('new message', {
                         'type': 'Bot',
@@ -5871,20 +5870,18 @@ var ChatBot = exports.ChatBot = function (_React$Component) {
                         'number': speak
                     });
                 } else if (commands[1] == "weather") {
-                    console.log("weather chatbot");
                     _Socket.Socket.emit('new message', {
                         'type': 'weather',
                         'name': "TomBot",
                         'picture': "static/img/tom2.jpg",
                         'number': "Here is the weather"
                     });
-                } else if (commands[1] == "gif") {
-                    console.log("this is the gif");
+                } else if (commands[1] == "location") {
                     _Socket.Socket.emit('new message', {
-                        'type': 'Bot',
+                        'type': 'location',
                         'name': 'TomBot',
                         'picture': "static/img/tom2.jpg",
-                        'number': "https://68.media.tumblr.com/b21481bb5d888c0df2163016294b0d83/tumblr_ola9cs6wTI1tx9mwqo1_500.gif"
+                        'number': "http://ip-api.com/json/?callback=yourfunction"
                     });
                 } else {
                     _Socket.Socket.emit('new message', {
@@ -13436,7 +13433,6 @@ var Button = exports.Button = function (_React$Component) {
             });
             var toBot = text.split(' ');
             if (toBot[0] == "!!") {
-                console.log("text should go to bot");
                 var Bot = __webpack_require__(39);
                 Bot.ChattyBot(text);
             }
@@ -13511,7 +13507,6 @@ var CurrentUsers = exports.CurrentUsers = function (_React$Component) {
                 _this2.setState({
                     'current': data
                 });
-                console.log("This is the number: " + data);
             });
         }
     }, {
@@ -13676,6 +13671,7 @@ var Users = exports.Users = function (_React$Component) {
         _this.state = {
             'numbers': []
         };
+
         return _this;
     }
 

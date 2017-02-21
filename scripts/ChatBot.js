@@ -5,7 +5,6 @@ export class ChatBot extends React.Component {
     render() {
         var Bot = function ChattyBot(text){
             var commands = text.split(' ');
-            console.log("this is the correct function");
             if (commands[1] == "about")
             {
                 Socket.emit('new message', {
@@ -52,7 +51,6 @@ export class ChatBot extends React.Component {
             }
             else if (commands[1] == "weather")
             {
-                console.log("weather chatbot");
                 Socket.emit('new message', {
                     'type': 'weather',
                     'name': "TomBot",
@@ -60,14 +58,13 @@ export class ChatBot extends React.Component {
                     'number': "Here is the weather"
                 });
             }
-            else if (commands[1] == "gif")
+            else if (commands[1] == "location")
             {
-                console.log("this is the gif");
                 Socket.emit('new message' , {
-                    'type': 'Bot',
+                    'type': 'location',
                     'name': 'TomBot',
                     'picture': "static/img/tom2.jpg",
-                    'number': "https://68.media.tumblr.com/b21481bb5d888c0df2163016294b0d83/tumblr_ola9cs6wTI1tx9mwqo1_500.gif"
+                    'number': "http://ip-api.com/json/?callback=yourfunction"
                 })
             }
             else

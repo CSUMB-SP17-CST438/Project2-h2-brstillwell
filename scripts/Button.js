@@ -33,7 +33,6 @@ export class Button extends React.Component {
         var toBot = text.split(' ');
         if (toBot[0] == "!!")
         {
-            console.log("text should go to bot")
             var Bot = require("./ChatBot");
             Bot.ChattyBot(text);
         }

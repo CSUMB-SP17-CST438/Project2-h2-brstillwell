@@ -9,6 +9,7 @@ export class Users extends React.Component {
         this.state = {
             'numbers': []
         };
+        
     }
     componentDidMount() {
         Socket.on('userList', (data) => {
