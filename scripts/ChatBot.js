@@ -34,6 +34,12 @@ export class ChatBot extends React.Component {
                     'picture': "static/img/tom2.jpg",
                     'number': "!! weather: Gives current weather forecast"
                 });
+                Socket.emit('new message', {
+                    'type': 'Bot',
+                    'name': "TomBot",
+                    'picture': "static/img/tom2.jpg",
+                    'number': "!! joke: Tells a joke"
+                });
             }
             else if (commands[1] == "say")
             {
@@ -58,13 +64,13 @@ export class ChatBot extends React.Component {
                     'number': "Here is the weather"
                 });
             }
-            else if (commands[1] == "location")
+            else if (commands[1] == "joke")
             {
                 Socket.emit('new message' , {
-                    'type': 'location',
+                    'type': 'Bot',
                     'name': 'TomBot',
                     'picture': "static/img/tom2.jpg",
-                    'number': "http://ip-api.com/json/?callback=yourfunction"
+                    'number': "Today a man knocked on my door and asked for a small donation towards the local swimming pool. I gave him a glass of water."
                 })
             }
             else

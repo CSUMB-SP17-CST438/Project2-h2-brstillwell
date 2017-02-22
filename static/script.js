@@ -5858,6 +5858,12 @@ var ChatBot = exports.ChatBot = function (_React$Component) {
                         'picture': "static/img/tom2.jpg",
                         'number': "!! weather: Gives current weather forecast"
                     });
+                    _Socket.Socket.emit('new message', {
+                        'type': 'Bot',
+                        'name': "TomBot",
+                        'picture': "static/img/tom2.jpg",
+                        'number': "!! joke: Tells a joke"
+                    });
                 } else if (commands[1] == "say") {
                     var speak = "";
                     for (var i = 2; i < commands.length; i++) {
@@ -5876,12 +5882,12 @@ var ChatBot = exports.ChatBot = function (_React$Component) {
                         'picture': "static/img/tom2.jpg",
                         'number': "Here is the weather"
                     });
-                } else if (commands[1] == "location") {
+                } else if (commands[1] == "joke") {
                     _Socket.Socket.emit('new message', {
-                        'type': 'location',
+                        'type': 'Bot',
                         'name': 'TomBot',
                         'picture': "static/img/tom2.jpg",
-                        'number': "http://ip-api.com/json/?callback=yourfunction"
+                        'number': "Today a man knocked on my door and asked for a small donation towards the local swimming pool. I gave him a glass of water."
                     });
                 } else {
                     _Socket.Socket.emit('new message', {

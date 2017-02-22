@@ -10,6 +10,7 @@ export class CurrentUsers extends React.Component {
             'current': []
         };
     }
+    
     componentDidMount() {
         Socket.on('usersCount', (data) => {
             this.setState({
