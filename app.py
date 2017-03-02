@@ -15,8 +15,8 @@ all_connected_users = { };
 
 import models 
 
-#app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://admin:admin@localhost/postgres'
-app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL')
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://admin:admin@localhost/postgres'
+#app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL')
 
 db = flask_sqlalchemy.SQLAlchemy(app)
 
@@ -28,6 +28,9 @@ def hello():
 
 @socketio.on('connect')
 def on_connect():
+    socketio.emit('hello to client', {
+        'message': 'Hey there!'
+    })
     #print "new method" + socketio.clientsCount
     chats = models.ChatRoom.query.all()
     currentUsers = models.Users.query.all()
@@ -134,6 +137,9 @@ def on_new_number(data):
     })
     socketio.emit('chatroom', {
         'numbers': chatlog
+    })
+    socketio.emit('got your message', {
+        'your message': data['number']
     })
     
 if __name__ == '__main__':
