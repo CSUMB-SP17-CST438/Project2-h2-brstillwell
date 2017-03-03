@@ -1,6 +1,6 @@
 import unittest
 import app
-import flask_testing, requests
+#import flask_testing, requests
 
 class unit_testing(unittest.TestCase):
     def test_empty_string(self):

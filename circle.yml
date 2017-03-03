@@ -10,4 +10,4 @@ deployment:
     production:
         branch: master
         heroku:
-            appname: hidden-fjord-13641
+            appname: tests/hidden-fjord-13641
