@@ -5,8 +5,8 @@ test:
     override:
         - python -m unit_tests
         - docker run --net=host -p 8080:8080 --env POSTGRES_HOST=localhost my/container
-deployment:
-    production:
-        branch: master
+#deployment:
+#    production:
+#        branch: master
         #heroku:
         #    appname: tests/hidden-fjord-13641
