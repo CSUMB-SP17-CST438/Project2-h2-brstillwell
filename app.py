@@ -5,7 +5,7 @@ import requests
 import flask_sqlalchemy
 import random
 from rfc3987 import parse
-from flask import Flask, request
+#from flask import Flask, request
 
 app = flask.Flask(__name__)
 socketio = flask_socketio.SocketIO(app)
@@ -95,9 +95,9 @@ def on_new_number(data):
             json = response.json()
             print "wtf" 
             print data['number'][0] 
-            if data['number'][0] == 'h':
-                web = parse(data['number'], rule='IRI')
-                print "This is the repsonse: ", web
+            #if data['number'][0] == 'h':
+                #web = parse(data['number'], rule='IRI')
+                #print "This is the repsonse: ", web
             print ""
             print ""
             newRecord = models.ChatRoom(json['name'], json['picture']['data']['url'], data['number'])
@@ -116,9 +116,9 @@ def on_new_number(data):
             json = response.json()
             print "wtf" 
             print data['number'][0] 
-            if data['number'][0] == 'h':
-                web = parse(data['number'], rule='IRI')
-                print "This is the repsonse: ", web
+            #if data['number'][0] == 'h':
+             #   web = parse(data['number'], rule='IRI')
+              #  print "This is the repsonse: ", web
             print ""
             print ""
             newRecord = models.ChatRoom(json['name'], json['picture'], data['number'])
