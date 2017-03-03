@@ -12,5 +12,5 @@ test:
 deployment:
     production:
         branch: master
-        heroku:
-            appname: tests/hidden-fjord-13641
+        #heroku:
+        #    appname: tests/hidden-fjord-13641
