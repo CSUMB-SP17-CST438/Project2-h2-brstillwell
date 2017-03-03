@@ -1,14 +1,10 @@
-dependencies:
-  pre:
-    - sudo apt-get remove --purge postgresql postgresql-9.4
-    - sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt/ `lsb_release -cs`-pgdg main" >> /etc/apt/sources.list.d/pgdg.list'
-    - wget -q https://www.postgresql.org/media/keys/ACCC4CF8.asc -O - | sudo apt-key add -
-    - sudo apt-get update
-    - sudo apt-get install postgresql postgresql-contrib
-    - sudo service postgresql start
+machine:
+  services:
+    - postgres
 test:
     override:
         - python -m unit_tests
+        - docker run --net=host -p 8080:8080 --env POSTGRES_HOST=localhost my/container
 deployment:
     production:
         branch: master
