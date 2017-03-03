@@ -1,10 +1,10 @@
-machine:
-  services:
-    - postgres
 test:
+  pre:
+    - sudo bash -c "echo \'listen_addresses = '*'\' >> /etc/postgresql/9.4/main/postgresql.conf"
+    - sudo bash -c "echo \'host all all 0.0.0.0/0 trust\' >> /etc/postgresql/9.4/main/pg_hba.conf"
+    - sudo /etc/init.d/postgresql restart
     override:
         - python -m unit_tests
-        - docker run --net=host -p 8080:8080 --env POSTGRES_HOST=localhost my/container
 #deployment:
 #    production:
 #        branch: master
