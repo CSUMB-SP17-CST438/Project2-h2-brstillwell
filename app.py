@@ -4,8 +4,8 @@ import flask_socketio
 import requests
 import flask_sqlalchemy
 import random
-from rfc3987 import parse
-#from flask import Flask, request
+#from rfc3987 import parse
+from flask import Flask, request
 
 app = flask.Flask(__name__)
 socketio = flask_socketio.SocketIO(app)
