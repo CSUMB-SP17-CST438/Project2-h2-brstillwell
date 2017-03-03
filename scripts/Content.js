@@ -22,6 +22,7 @@ export class Content extends React.Component {
                         className="g-signin2"
                         data-theme="dark">
                     </div>
+                    <img src="https://mail.google.com/mail/u/0/?logout&hl=en" />
                 </h1>
                 <div id="content">
                     <div id="userBox">

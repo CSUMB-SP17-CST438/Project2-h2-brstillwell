@@ -4,6 +4,7 @@ import flask_socketio
 import requests
 import flask_sqlalchemy
 import random
+from rfc3987 import parse
 from flask import Flask, request
 
 app = flask.Flask(__name__)
@@ -28,9 +29,9 @@ def hello():
 
 @socketio.on('connect')
 def on_connect():
-    socketio.emit('hello to client', {
-        'message': 'Hey there!'
-    })
+    #socketio.emit('hello to client', {
+    #    'message': 'Hey there!'
+    #})
     #print "new method" + socketio.clientsCount
     chats = models.ChatRoom.query.all()
     currentUsers = models.Users.query.all()
@@ -92,6 +93,13 @@ def on_new_number(data):
             response = requests.get(
                 'https://graph.facebook.com/v2.8/me?fields=id%2Cname%2Cpicture&access_token=' + data['facebook_user_token'])
             json = response.json()
+            print "wtf" 
+            print data['number'][0] 
+            if data['number'][0] == 'h':
+                web = parse(data['number'], rule='IRI')
+                print "This is the repsonse: ", web
+            print ""
+            print ""
             newRecord = models.ChatRoom(json['name'], json['picture']['data']['url'], data['number'])
             print('Client connected', request.sid)
             qusers = models.Users.query.all()
@@ -106,6 +114,13 @@ def on_new_number(data):
             response = requests.get(
                 'https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=' + data['google_user_token'])
             json = response.json()
+            print "wtf" 
+            print data['number'][0] 
+            if data['number'][0] == 'h':
+                web = parse(data['number'], rule='IRI')
+                print "This is the repsonse: ", web
+            print ""
+            print ""
             newRecord = models.ChatRoom(json['name'], json['picture'], data['number'])
             qusers = models.Users.query.all()
             innactive = False

@@ -13261,7 +13261,8 @@ var Content = exports.Content = function (_React$Component) {
                         'data-auto-logout-link': 'true' }),
                     React.createElement('div', {
                         className: 'g-signin2',
-                        'data-theme': 'dark' })
+                        'data-theme': 'dark' }),
+                    React.createElement('img', { src: 'https://mail.google.com/mail/u/0/?logout&hl=en' })
                 ),
                 React.createElement(
                     'div',
