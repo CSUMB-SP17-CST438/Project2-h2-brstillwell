@@ -1,6 +1,5 @@
 machine:
     environment:
-        CIRCLE_ENV: test
         DATABASE_URL: postgresql://admin:admin@localhost/postgres
 
 test:
