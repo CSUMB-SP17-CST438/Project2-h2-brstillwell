@@ -75,10 +75,57 @@ def on_disconnect():
         db.session.delete(userLeft)
         db.session.commit()
     print 'Someone disconnected!'
+    
+def chatbot_message(data):
+    print "this is to the damn chatbot"
+    commands = data['text'].split(' ')
+    if (commands[1] == "about"):
+        message1 = models.ChatRoom("TomBot", "static/img/tom2.jpg", "Myspace is better")
+        db.session.add(message1)
+        db.session.commit()
+        return "Myspace is better"
+    elif (commands[1] == "help"):
+        message1 = models.ChatRoom("TomBot", "static/img/tom2.jpg", "!! say: Make bot say something")
+        message2 = models.ChatRoom("TomBot", "static/img/tom2.jpg", "!! about: Tells about the bot")
+        message3 = models.ChatRoom("TomBot", "static/img/tom2.jpg", "!! weather: Gives current weather forecast")
+        message4 = models.ChatRoom("TomBot", "static/img/tom2.jpg", "!! joke: Tells a joke")
+        db.session.add_all([message1, message2, message3, message4])
+        db.session.commit()
+        return "help messages"
+    elif (commands[1] == "say"):
+        speak = ""
+        for index in range(len(commands)):
+            if index > 1:
+                speak = speak + " " + commands[index];
+        message1 = models.ChatRoom("TomBot", "static/img/tom2.jpg", speak)
+        db.session.add(message1)
+        db.session.commit()
+        return speak
+    elif (commands[1] == "weather"):
+        response = requests.get('http://api.openweathermap.org/data/2.5/weather?q=Marina&APPID=375a6ab765b60a9834b31204e67b8c08')
+        json_body = response.json()
+        message1 = models.ChatRoom("TomBot", "static/img/tom2.jpg", "Weather in Marina, CA: " + json_body['weather'][0]['description'])
+        db.session.add(message1)
+        db.session.commit()
+        return "Weather in Marina, CA: pending"
+    elif (commands[1] == "joke"):
+        message1 = models.ChatRoom("TomBot", "static/img/tom2.jpg", "Today a man knocked on my door and asked for a small donation towards the local swimming pool. I gave him a glass of water.")
+        db.session.add(message1)
+        db.session.commit()
+        return "Today a man knocked on my door and asked for a small donation towards the local swimming pool. I gave him a glass of water."
+    else:
+        message1 = models.ChatRoom("TomBot", "static/img/tom2.jpg", "Unrecognized command: " + data['text'])
+        db.session.add(message1)
+        db.session.commit()
+        return "Unrecognized command: " + data['text']
 
 @socketio.on('new message')
 def on_new_number(data):
+    print data
+    print ""
     if data['type'] == 'Bot':
+        print "The Bot has received this"
+        print ""
         newRecord = models.ChatRoom(data['name'], data['picture'], data['number'])
         db.session.add(newRecord)
         db.session.commit()
@@ -93,13 +140,6 @@ def on_new_number(data):
             response = requests.get(
                 'https://graph.facebook.com/v2.8/me?fields=id%2Cname%2Cpicture&access_token=' + data['facebook_user_token'])
             json = response.json()
-            print "wtf" 
-            print data['number'][0] 
-            #if data['number'][0] == 'h':
-                #web = parse(data['number'], rule='IRI')
-                #print "This is the repsonse: ", web
-            print ""
-            print ""
             newRecord = models.ChatRoom(json['name'], json['picture']['data']['url'], data['number'])
             print('Client connected', request.sid)
             qusers = models.Users.query.all()
@@ -114,13 +154,6 @@ def on_new_number(data):
             response = requests.get(
                 'https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=' + data['google_user_token'])
             json = response.json()
-            print "wtf" 
-            print data['number'][0] 
-            #if data['number'][0] == 'h':
-             #   web = parse(data['number'], rule='IRI')
-              #  print "This is the repsonse: ", web
-            print ""
-            print ""
             newRecord = models.ChatRoom(json['name'], json['picture'], data['number'])
             qusers = models.Users.query.all()
             innactive = False
@@ -132,6 +165,9 @@ def on_new_number(data):
                 db.session.add(newUser)
         db.session.add(newRecord)
         db.session.commit()
+    message = data['number'].split(" ")
+    if (message[0] == "!!"):
+        chatbot_message({'text': data['number']})
     chats = models.ChatRoom.query.all()
     users = models.Users.query.all()
     chatlog = []

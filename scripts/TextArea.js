@@ -19,8 +19,22 @@ export class TextArea extends React.Component {
             });
         })
     }
+    
 
     render() {
+        function checker(text)
+        {
+            console.log("this is the text=",text);
+            if (text.includes("http") || text.includes(".com") || text.includes(".org") || text.includes(".edu"))
+            {
+                if (text.includes(".jpg") || text.includes(".gif") || text.includes(".png") || text.includes(".jpeg"))
+                    return <img src={text} id="messageImage"/>;
+                else 
+                    return <a href={text}>{text}</a>;
+            }
+            else
+            return text;
+        }
         let numbers = this.state.numbers.map((n, index) =>
         <table key={index}>
             <tbody >
@@ -34,7 +48,7 @@ export class TextArea extends React.Component {
                             </div>
                         <br />
                         <div>
-                            {n.number}&nbsp;
+                            {checker(n.number)}&nbsp;
                         </div>
                     </td>
                 </tr>

@@ -5831,72 +5831,9 @@ var ChatBot = exports.ChatBot = function (_React$Component) {
         key: 'render',
         value: function render() {
             var Bot = function ChattyBot(text) {
-                var commands = text.split(' ');
-                if (commands[1] == "about") {
-                    _Socket.Socket.emit('new message', {
-                        'type': 'Bot',
-                        'name': "TomBot",
-                        'picture': "static/img/tom2.jpg",
-                        'number': "Myspace is better"
-                    });
-                } else if (commands[1] == "help") {
-                    _Socket.Socket.emit('new message', {
-                        'type': 'Bot',
-                        'name': "TomBot",
-                        'picture': "static/img/tom2.jpg",
-                        'number': "!! say: Make bot say something"
-                    });
-                    _Socket.Socket.emit('new message', {
-                        'type': 'Bot',
-                        'name': "TomBot",
-                        'picture': "static/img/tom2.jpg",
-                        'number': "!! about: Tells about the bot"
-                    });
-                    _Socket.Socket.emit('new message', {
-                        'type': 'Bot',
-                        'name': "TomBot",
-                        'picture': "static/img/tom2.jpg",
-                        'number': "!! weather: Gives current weather forecast"
-                    });
-                    _Socket.Socket.emit('new message', {
-                        'type': 'Bot',
-                        'name': "TomBot",
-                        'picture': "static/img/tom2.jpg",
-                        'number': "!! joke: Tells a joke"
-                    });
-                } else if (commands[1] == "say") {
-                    var speak = "";
-                    for (var i = 2; i < commands.length; i++) {
-                        speak = speak + " " + commands[i];
-                    }
-                    _Socket.Socket.emit('new message', {
-                        'type': 'Bot',
-                        'name': "TomBot",
-                        'picture': "static/img/tom2.jpg",
-                        'number': speak
-                    });
-                } else if (commands[1] == "weather") {
-                    _Socket.Socket.emit('new message', {
-                        'type': 'weather',
-                        'name': "TomBot",
-                        'picture': "static/img/tom2.jpg",
-                        'number': "Here is the weather"
-                    });
-                } else if (commands[1] == "joke") {
-                    _Socket.Socket.emit('new message', {
-                        'type': 'Bot',
-                        'name': 'TomBot',
-                        'picture': "static/img/tom2.jpg",
-                        'number': "Today a man knocked on my door and asked for a small donation towards the local swimming pool. I gave him a glass of water."
-                    });
-                } else {
-                    _Socket.Socket.emit('new message', {
-                        'type': 'Bot',
-                        'name': 'TomBot',
-                        'picture': "static/img/tom2.jpg",
-                        'number': "Unrecognized command: " + text
-                    });
-                }
+                _Socket.Socket.emit('chatbot message', {
+                    'text': text
+                });
             };
             module.exports.ChattyBot = Bot;
             return React.createElement('p', null);
@@ -13448,6 +13385,7 @@ var Button = exports.Button = function (_React$Component) {
     }, {
         key: 'render',
         value: function render() {
+
             return React.createElement(
                 'form',
                 { onSubmit: this.handleSubmit },
@@ -13589,6 +13527,16 @@ var TextArea = exports.TextArea = function (_React$Component) {
     }, {
         key: 'render',
         value: function render() {
+            function checker(text) {
+                console.log("this is the text=", text);
+                if (text.includes("http") || text.includes(".com") || text.includes(".org") || text.includes(".edu")) {
+                    if (text.includes(".jpg") || text.includes(".gif") || text.includes(".png") || text.includes(".jpeg")) return React.createElement('img', { src: text, id: 'messageImage' });else return React.createElement(
+                        'a',
+                        { href: text },
+                        text
+                    );
+                } else return text;
+            }
             var numbers = this.state.numbers.map(function (n, index) {
                 return React.createElement(
                     'table',
@@ -13617,7 +13565,7 @@ var TextArea = exports.TextArea = function (_React$Component) {
                                 React.createElement(
                                     'div',
                                     null,
-                                    n.number,
+                                    checker(n.number),
                                     '\xA0'
                                 )
                             )

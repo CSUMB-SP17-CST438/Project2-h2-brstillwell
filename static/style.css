@@ -103,3 +103,7 @@ tbody {
     width: 50px;
     border-radius: 10px;
 }
+
+#messageImage {
+    width: 200px;
+}
