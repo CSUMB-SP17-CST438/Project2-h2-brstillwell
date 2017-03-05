@@ -5,3 +5,4 @@ flask_sqlalchemy
 gevent
 gevent-websocket
 psycopg2 
+flask_testing
