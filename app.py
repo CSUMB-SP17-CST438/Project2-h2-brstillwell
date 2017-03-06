@@ -4,6 +4,7 @@ import flask_socketio
 import requests
 import flask_sqlalchemy
 import random
+import unirest
 #from rfc3987 import parse
 #from flask import Flask, request
 from flask import Flask, render_template, request, jsonify
@@ -35,12 +36,13 @@ def chatbot_message(data):
         db.session.commit()
         return "Myspace is better"
     elif (commands[1] == "help"):
-        message1 = models.ChatRoom("TomBot", "static/img/tom2.jpg", "!! say: Make bot say something")
-        message2 = models.ChatRoom("TomBot", "static/img/tom2.jpg", "!! about: Tells about the bot")
-        message3 = models.ChatRoom("TomBot", "static/img/tom2.jpg", "!! weather: Gives current weather forecast")
-        message4 = models.ChatRoom("TomBot", "static/img/tom2.jpg", "!! joke: Tells a joke")
-        message5 = models.ChatRoom("TomBot", "static/img/tom2.jpg", "!! hidden: Make bot say something without your command showing")
-        db.session.add_all([message1, message2, message3, message4, message5])
+        message1 = models.ChatRoom("TomBot", "static/img/tom2.jpg", "!! about: Tells about the bot")
+        message2 = models.ChatRoom("TomBot", "static/img/tom2.jpg", "!! weather: Gives current weather forecast for Marina")
+        message3 = models.ChatRoom("TomBot", "static/img/tom2.jpg", "!! joke: Tells a joke")
+        message4 = models.ChatRoom("TomBot", "static/img/tom2.jpg", "!! hidden <text>: Make bot say something without your command showing")
+        message5 = models.ChatRoom("TomBot", "static/img/tom2.jpg", "!! say <text>: Make bot say something")
+        message6 = models.ChatRoom("TomBot", "static/img/tom2.jpg", "!! yoda <text>: Translates string to Yoda-nese")
+        db.session.add_all([message1, message2, message3, message4, message5, message6])
         db.session.commit()
         return "help messages"
     elif (commands[1] == "say"):
@@ -73,35 +75,34 @@ def chatbot_message(data):
         db.session.add(message1)
         db.session.commit()
         return speak
+    elif (commands[1] == "yoda"):
+        speak = ""
+        for index in range(len(commands)):
+            if index == 2:
+                speak = commands[index]
+            elif index > 2:
+                speak = speak + "+" + commands[index];
+        if speak == "" or speak=="+":
+            message1 = models.ChatRoom("TomBot", "static/img/tom2.jpg", "Enter string after yoda command")
+            db.session.add(message1)
+            db.session.commit()
+            return "Enter string after yoda command"
+        response = unirest.get("https://yoda.p.mashape.com/yoda?sentence=" + speak,
+             headers={
+               "X-Mashape-Key": "thJ4GCpx5lmshJlFqLbRaXr5cb0Yp1SDDbRjsnDU0dJo1XRpZ5",
+             }
+        )
+        message1 = models.ChatRoom("TomBot", "static/img/tom2.jpg", "*calls yodaBot*")
+        message2 = models.ChatRoom("yodaBot", "static/img/yodaBot.png", response.body)
+        db.session.add_all([message1, message2])
+        db.session.commit()
+        return "Yoda translation success"
     else:
         message1 = models.ChatRoom("TomBot", "static/img/tom2.jpg", "Unrecognized command: " + data['text'])
         db.session.add(message1)
         db.session.commit()
         return "Unrecognized command: " + data['text']
         
-    '''elif (commands[1] == "yoda"):
-        yoda = ('thJ4GCpx5lmshJlFqLbRaXr5cb0Yp1SDDbRjsnDU0dJo1XRpZ5')
-        parser = argparse.ArgumentParser(description='What do you want Yoda to say?')
-        parser.add_argument( 'yodasLine', help='What do you want Yoda to say?' )
-        args = parser.parse_args()
-        
-        str = urllib.quote(args.yodasLine)
-        opener = urllib2.build_opener()
-        opener.addheaders = [("X-Mashape-Authorization", yoda)]
-        socket = opener.open('https://yoda.p.mashape.com/yoda?sentence=' +
-        str)
-        content = socket.read()
-        socket.close()
-        print content
-        print ""
-        print ""
-        speak = ""
-        for index in range(len(commands)):
-            if index > 1:
-                speak = speak + " " + commands[index];
-        message1 = models.ChatRoom("TomBot", "static/img/tom2.jpg", speak)
-        db.session.add(message1)
-        db.session.commit()'''
     
 @app.route('/')
 def hello():
@@ -159,9 +160,9 @@ def on_disconnect():
         if u.id == request.sid:
             innactive = True
             userLeft = u
-    if innactive == True:
-        db.session.delete(userLeft)
-        db.session.commit()
+    ##if innactive == True:
+      #  db.session.delete(userLeft)
+       # db.session.commit()
     print 'Someone disconnected!'
     socketio.emit('farewell to client', {
         'message': 'Bye!'

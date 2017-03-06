@@ -40,6 +40,15 @@ class unit_testing(unittest.TestCase):
     def test_bot_command_joke(self):
         response = app.chatbot_message({'text': "!! joke"})
         self.assertEquals(response, "Today a man knocked on my door and asked for a small donation towards the local swimming pool. I gave him a glass of water.")
+        
+    def test_bot_command_yoda(self):
+        repsonse = app.chatbot_message({'text': "!! yoda i hope you are having a wonderful day"})
+        self.assertEquals(response, "Yoda translation success")
+        
+    def test_bot_command_yoda_bad(self):
+        response = app.chatbot_message({'text': "!! yoda"})
+        self.assertEquals(response, "Enter string after yoda command")
+    
     
 '''    def test_bot_command_help(self):
         response = app.chatbot_message({'text': "!! help"})
