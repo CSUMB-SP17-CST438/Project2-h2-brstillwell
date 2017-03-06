@@ -22,61 +22,6 @@ app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL')
 
 db = flask_sqlalchemy.SQLAlchemy(app)
 
-    
-@app.route('/')
-def hello():
-    return flask.render_template('index.html')
-            
-
-@socketio.on('connect')
-def on_connect():
-    socketio.emit('hello to client', {
-        'message': 'Hey there!'
-    })
-    #print "new method" + socketio.clientsCount
-    chats = models.ChatRoom.query.all()
-    currentUsers = models.Users.query.all()
-    chatlog = []
-    userlog = []
-    name = random.randrange(1000, 9999)
-    all_connected_users[flask.request.sid] = name
-    socketio.emit('usersCount', len(all_connected_users))
-    for c in chats:
-        chatlog.append({
-            'name': c.user,
-            'picture': c.image,
-            'number': c.message
-            })
-    for u in currentUsers:
-        userlog.append({
-            'name': u.user,
-            'picture': u.image
-        })
-    socketio.emit('userList', {
-        'numbers': userlog
-    })
-    socketio.emit('chatroom', {
-        'numbers': chatlog
-    })
-    print 'Someone connected!'
-    
-
-@socketio.on('disconnect')
-def on_disconnect():
-    qusers = models.Users.query.all()
-    userLeft = models.Users
-    del all_connected_users[flask.request.sid]
-    socketio.emit('usersCount', len(all_connected_users))
-    innactive = False
-    for u in qusers:
-        if u.id == request.sid:
-            innactive = True
-            userLeft = u
-    if innactive == True:
-        db.session.delete(userLeft)
-        db.session.commit()
-    print 'Someone disconnected!'
-    
 def chatbot_message(data):
     #print "this is to the damn chatbot"
     commands = data['text'].split(' ')
@@ -142,6 +87,61 @@ def chatbot_message(data):
         db.session.add(message1)
         db.session.commit()
         return "Unrecognized command: " + data['text']
+    
+@app.route('/')
+def hello():
+    return flask.render_template('index.html')
+            
+
+@socketio.on('connect')
+def on_connect():
+    socketio.emit('hello to client', {
+        'message': 'Hey there!'
+    })
+    #print "new method" + socketio.clientsCount
+    chats = models.ChatRoom.query.all()
+    currentUsers = models.Users.query.all()
+    chatlog = []
+    userlog = []
+    name = random.randrange(1000, 9999)
+    all_connected_users[flask.request.sid] = name
+    socketio.emit('usersCount', len(all_connected_users))
+    for c in chats:
+        chatlog.append({
+            'name': c.user,
+            'picture': c.image,
+            'number': c.message
+            })
+    for u in currentUsers:
+        userlog.append({
+            'name': u.user,
+            'picture': u.image
+        })
+    socketio.emit('userList', {
+        'numbers': userlog
+    })
+    socketio.emit('chatroom', {
+        'numbers': chatlog
+    })
+    print 'Someone connected!'
+    
+
+@socketio.on('disconnect')
+def on_disconnect():
+    qusers = models.Users.query.all()
+    userLeft = models.Users
+    del all_connected_users[flask.request.sid]
+    socketio.emit('usersCount', len(all_connected_users))
+    innactive = False
+    for u in qusers:
+        if u.id == request.sid:
+            innactive = True
+            userLeft = u
+    if innactive == True:
+        db.session.delete(userLeft)
+        db.session.commit()
+    print 'Someone disconnected!'
+    
 
 @socketio.on('new message')
 def on_new_number(data):
