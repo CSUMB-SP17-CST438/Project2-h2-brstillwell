@@ -49,7 +49,7 @@ class unit_testing(unittest.TestCase):
         response = app.chatbot_message({'text': "!! help"})
         self.assertEquals(response, "help messages")
 '''        
-        
+'''   
 class socketio_testing(unittest.TestCase):
     def test_server_sends_hello(self):
         client = app.socketio.test_client(app.app)
@@ -138,6 +138,6 @@ class MyTest(flask_testing.LiveServerTestCase):
     #def test_server_is_up_and_running(self):
         #response = urllib2.urlopen(self.get_server_url())
         #self.assertEqual(response.code, 200)
-
+'''
 if __name__ == '__main__':
     unittest.main()
