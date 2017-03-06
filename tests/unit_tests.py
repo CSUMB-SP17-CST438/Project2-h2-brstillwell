@@ -24,10 +24,18 @@ class unit_testing(unittest.TestCase):
     def test_bot_command_say(self):
         response = app.chatbot_message({'text': "!! say testing"})
         self.assertEquals(response, " testing")
+        
+    def test_bot_command_hidden(self):
+        response = app.chatbot_message({'text': "!! hidden testing"})
+        self.assertEquals(response, " testing")
     
     def test_bot_command_wrong(self):
         response = app.chatbot_message({'text': "!! test"})
         self.assertEquals(response, "Unrecognized command: !! test")
+        
+    def test_bot_command_none(self):
+        response = app.chatbot_message({'text': "!!"})
+        self.assertEquals(response, "Please specify command after '!!'")
     
     def test_bot_command_joke(self):
         response = app.chatbot_message({'text': "!! joke"})

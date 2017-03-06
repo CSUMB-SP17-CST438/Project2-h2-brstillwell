@@ -13198,8 +13198,7 @@ var Content = exports.Content = function (_React$Component) {
                         'data-auto-logout-link': 'true' }),
                     React.createElement('div', {
                         className: 'g-signin2',
-                        'data-theme': 'dark' }),
-                    React.createElement('img', { src: 'https://mail.google.com/mail/u/0/?logout&hl=en' })
+                        'data-theme': 'dark' })
                 ),
                 React.createElement(
                     'div',
@@ -13213,7 +13212,8 @@ var Content = exports.Content = function (_React$Component) {
                     React.createElement(_TextArea.TextArea, null),
                     React.createElement(_Button.Button, { id: 'buttonWrapper' })
                 ),
-                React.createElement(_ChatBot.ChatBot, null)
+                React.createElement(_ChatBot.ChatBot, null),
+                React.createElement('img', { src: 'https://mail.google.com/mail/u/0/?logout&hl=en' })
             );
         }
     }]);
@@ -13528,7 +13528,9 @@ var TextArea = exports.TextArea = function (_React$Component) {
         key: 'render',
         value: function render() {
             function checker(text) {
-                console.log("this is the text=", text);
+                _Socket.Socket.emit("chatroom check", {
+                    'message': "in chatroom"
+                });
                 if (text.includes("http") || text.includes(".com") || text.includes(".org") || text.includes(".edu")) {
                     if (text.includes(".jpg") || text.includes(".gif") || text.includes(".png") || text.includes(".jpeg")) return React.createElement('img', { src: text, id: 'messageImage' });else return React.createElement(
                         'a',
@@ -13645,6 +13647,11 @@ var Users = exports.Users = function (_React$Component) {
     }, {
         key: 'render',
         value: function render() {
+            function test() {
+                _Socket.Socket.emit("chatroom check", {
+                    'message': "in chatroom"
+                });
+            }
             var numbers = this.state.numbers.map(function (n, index) {
                 return React.createElement(
                     'table',
@@ -13676,7 +13683,8 @@ var Users = exports.Users = function (_React$Component) {
             return React.createElement(
                 'div',
                 null,
-                numbers
+                numbers,
+                test()
             );
         }
     }]);

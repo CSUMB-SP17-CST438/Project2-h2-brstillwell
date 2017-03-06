@@ -21,6 +21,11 @@ export class Users extends React.Component {
     }
     
     render(){
+        function test() {
+            Socket.emit("chatroom check", {
+                'message': "in chatroom"
+            });
+        }
         let numbers = this.state.numbers.map((n, index) =>
         <table key={index}>
             <tbody >
@@ -40,6 +45,7 @@ export class Users extends React.Component {
         return(
             <div>
                 {numbers}
+                {test()}
             </div>
             );
     }

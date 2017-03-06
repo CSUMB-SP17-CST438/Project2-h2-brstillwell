@@ -18,13 +18,16 @@ export class TextArea extends React.Component {
                 
             });
         })
+        
     }
     
 
     render() {
         function checker(text)
         {
-            console.log("this is the text=",text);
+            Socket.emit("chatroom check", {
+                'message': "in chatroom"
+            });
             if (text.includes("http") || text.includes(".com") || text.includes(".org") || text.includes(".edu"))
             {
                 if (text.includes(".jpg") || text.includes(".gif") || text.includes(".png") || text.includes(".jpeg"))

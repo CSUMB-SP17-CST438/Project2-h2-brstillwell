@@ -5,8 +5,8 @@ import requests
 import flask_sqlalchemy
 import random
 #from rfc3987 import parse
-from flask import Flask, request
-
+#from flask import Flask, request
+from flask import Flask, render_template, request, jsonify
 app = flask.Flask(__name__)
 socketio = flask_socketio.SocketIO(app)
 #all_numbers = [];
@@ -24,7 +24,12 @@ db = flask_sqlalchemy.SQLAlchemy(app)
 def chatbot_message(data):
     #print "this is to the damn chatbot"
     commands = data['text'].split(' ')
-    if (commands[1] == "about"):
+    if (len(commands) == 1):
+        message1 = models.ChatRoom("TomBot", "static/img/tom2.jpg", "Please specify command after '!!'")
+        db.session.add(message1)
+        db.session.commit()
+        return "Please specify command after '!!'"
+    elif (commands[1] == "about"):
         message1 = models.ChatRoom("TomBot", "static/img/tom2.jpg", "Myspace is better")
         db.session.add(message1)
         db.session.commit()
@@ -34,7 +39,8 @@ def chatbot_message(data):
         message2 = models.ChatRoom("TomBot", "static/img/tom2.jpg", "!! about: Tells about the bot")
         message3 = models.ChatRoom("TomBot", "static/img/tom2.jpg", "!! weather: Gives current weather forecast")
         message4 = models.ChatRoom("TomBot", "static/img/tom2.jpg", "!! joke: Tells a joke")
-        db.session.add_all([message1, message2, message3, message4])
+        message5 = models.ChatRoom("TomBot", "static/img/tom2.jpg", "!! hidden: Make bot say something without your command showing")
+        db.session.add_all([message1, message2, message3, message4, message5])
         db.session.commit()
         return "help messages"
     elif (commands[1] == "say"):
@@ -58,6 +64,15 @@ def chatbot_message(data):
         db.session.add(message1)
         db.session.commit()
         return "Today a man knocked on my door and asked for a small donation towards the local swimming pool. I gave him a glass of water."
+    elif (commands[1] == "hidden"):
+        speak = ""
+        for index in range(len(commands)):
+            if index > 1:
+                speak = speak + " " + commands[index];
+        message1 = models.ChatRoom("TomBot", "static/img/tom2.jpg", speak)
+        db.session.add(message1)
+        db.session.commit()
+        return speak
     else:
         message1 = models.ChatRoom("TomBot", "static/img/tom2.jpg", "Unrecognized command: " + data['text'])
         db.session.add(message1)
@@ -91,6 +106,13 @@ def chatbot_message(data):
 @app.route('/')
 def hello():
     return flask.render_template('index.html')
+    
+@app.route('/_add_numbers')
+def add_numbers():
+    a = request.args.get('a', 0, type=int)
+    b = request.args.get('b', 0, type=int)
+    return jsonify(result=a + b)
+
             
 
 @socketio.on('connect')
@@ -141,12 +163,16 @@ def on_disconnect():
         db.session.delete(userLeft)
         db.session.commit()
     print 'Someone disconnected!'
+    socketio.emit('farewell to client', {
+        'message': 'Bye!'
+    })
     
 
 @socketio.on('new message')
 def on_new_number(data):
     print data
     print ""
+    message = data['number'].split(" ")
     if data['type'] == 'Bot':
         print "The Bot has received this"
         print ""
@@ -187,9 +213,15 @@ def on_new_number(data):
             if innactive == False:
                 newUser = models.Users(newRecord.user, newRecord.image, request.sid)
                 db.session.add(newUser)
-        db.session.add(newRecord)
+        if (message[0] == "!!"):
+            if (len(message) > 1):
+                if (message[1] != "hidden"):
+                    db.session.add(newRecord)
+            else: 
+                db.session.add(newRecord)
+        else:
+            db.session.add(newRecord)
         db.session.commit()
-    message = data['number'].split(" ")
     if (message[0] == "!!"):
         chatbot_message({'text': data['number']})
     chats = models.ChatRoom.query.all()
