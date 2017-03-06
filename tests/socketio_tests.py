@@ -23,9 +23,25 @@ class socketio_testing(unittest.TestCase):
         })
         received = client.get_received()
         client.disconnect()
-        print ""
-        print('userList stuff: ', received)
-        print ""
+        
+    def test_chatroom(self):
+        client = app.socketio.test_client(app.app)
+        chatlog = []
+        chatlog.append({
+                'name': 'test1',
+                'picture': 'static/img/testBot.png',
+                'number': 'this is the first test'
+                })
+        chatlog.append({
+                'name': 'test2',
+                'picture': 'static/img/testBot.png',
+                'number': 'this is the second test'
+                })
+        client.emit('chatroom', {
+            'numbers': chatlog
+        })
+        received = client.get_received()
+        client.disconnect()
         
 class socketio_testing2(unittest.TestCase):
     def test_server_relays_message(self):
@@ -54,27 +70,6 @@ class socketio_testing2(unittest.TestCase):
         received = client.get_received()
         self.assertEqual(received[-1]['args'][0]['message'], 'Bye!')
         
-    def test_chatroom(self):
-        client = app.socketio.test_client(app.app)
-        chatlog = []
-        chatlog.append({
-                'name': 'test1',
-                'picture': 'static/img/testBot.png',
-                'number': 'this is the first test'
-                })
-        chatlog.append({
-                'name': 'test2',
-                'picture': 'static/img/testBot.png',
-                'number': 'this is the second test'
-                })
-        client.emit('chatroom', {
-            'numbers': chatlog
-        })
-        received = client.get_received()
-        client.disconnect()
-        print ""
-        print('chatroom stuff: ', received)
-        print ""
     
     
         
