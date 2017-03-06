@@ -6,4 +6,3 @@ gevent
 gevent-websocket
 psycopg2 
 flask_testing
-urllib2
