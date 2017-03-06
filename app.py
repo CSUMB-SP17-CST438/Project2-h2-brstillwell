@@ -4,7 +4,6 @@ import flask_socketio
 import requests
 import flask_sqlalchemy
 import random
-import urllib2, urllib, argparse
 #from rfc3987 import parse
 from flask import Flask, request
 
@@ -59,7 +58,13 @@ def chatbot_message(data):
         db.session.add(message1)
         db.session.commit()
         return "Today a man knocked on my door and asked for a small donation towards the local swimming pool. I gave him a glass of water."
-    elif (commands[1] == "yoda"):
+    else:
+        message1 = models.ChatRoom("TomBot", "static/img/tom2.jpg", "Unrecognized command: " + data['text'])
+        db.session.add(message1)
+        db.session.commit()
+        return "Unrecognized command: " + data['text']
+        
+    '''elif (commands[1] == "yoda"):
         yoda = ('thJ4GCpx5lmshJlFqLbRaXr5cb0Yp1SDDbRjsnDU0dJo1XRpZ5')
         parser = argparse.ArgumentParser(description='What do you want Yoda to say?')
         parser.add_argument( 'yodasLine', help='What do you want Yoda to say?' )
@@ -81,12 +86,7 @@ def chatbot_message(data):
                 speak = speak + " " + commands[index];
         message1 = models.ChatRoom("TomBot", "static/img/tom2.jpg", speak)
         db.session.add(message1)
-        db.session.commit()
-    else:
-        message1 = models.ChatRoom("TomBot", "static/img/tom2.jpg", "Unrecognized command: " + data['text'])
-        db.session.add(message1)
-        db.session.commit()
-        return "Unrecognized command: " + data['text']
+        db.session.commit()'''
     
 @app.route('/')
 def hello():
