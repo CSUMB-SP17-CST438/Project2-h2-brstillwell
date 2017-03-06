@@ -13211,7 +13211,6 @@ var Content = exports.Content = function (_React$Component) {
                         React.createElement(_Users.Users, null)
                     ),
                     React.createElement(_TextArea.TextArea, null),
-                    React.createElement('input', { type: 'text', placeholder: 'Type a message', id: 'comment' }),
                     React.createElement(_Button.Button, { id: 'buttonWrapper' })
                 ),
                 React.createElement(_ChatBot.ChatBot, null)
@@ -13389,6 +13388,7 @@ var Button = exports.Button = function (_React$Component) {
             return React.createElement(
                 'form',
                 { onSubmit: this.handleSubmit },
+                React.createElement('input', { type: 'text', placeholder: 'Type a message', id: 'comment' }),
                 React.createElement(
                     'button',
                     { id: 'buttonSend' },

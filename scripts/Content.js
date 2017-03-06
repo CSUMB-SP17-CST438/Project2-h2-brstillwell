@@ -30,7 +30,6 @@ export class Content extends React.Component {
                         <Users />
                     </div>
                     <TextArea />
-                        <input type="text" placeholder="Type a message" id="comment"/> 
                         <Button id="buttonWrapper"/>
                 </div>
               

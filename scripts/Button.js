@@ -46,6 +46,7 @@ export class Button extends React.Component {
         
         return (
             <form onSubmit={this.handleSubmit}>
+                <input type="text" placeholder="Type a message" id="comment"/> 
                 <button id="buttonSend">Send</button>
             </form>
         );

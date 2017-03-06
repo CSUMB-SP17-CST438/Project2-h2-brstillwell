@@ -4,6 +4,7 @@ import flask_socketio
 import requests
 import flask_sqlalchemy
 import random
+import urllib2, urllib, argparse
 #from rfc3987 import parse
 from flask import Flask, request
 
@@ -29,9 +30,9 @@ def hello():
 
 @socketio.on('connect')
 def on_connect():
-    #socketio.emit('hello to client', {
-    #    'message': 'Hey there!'
-    #})
+    socketio.emit('hello to client', {
+        'message': 'Hey there!'
+    })
     #print "new method" + socketio.clientsCount
     chats = models.ChatRoom.query.all()
     currentUsers = models.Users.query.all()
@@ -77,7 +78,7 @@ def on_disconnect():
     print 'Someone disconnected!'
     
 def chatbot_message(data):
-    print "this is to the damn chatbot"
+    #print "this is to the damn chatbot"
     commands = data['text'].split(' ')
     if (commands[1] == "about"):
         message1 = models.ChatRoom("TomBot", "static/img/tom2.jpg", "Myspace is better")
@@ -113,6 +114,29 @@ def chatbot_message(data):
         db.session.add(message1)
         db.session.commit()
         return "Today a man knocked on my door and asked for a small donation towards the local swimming pool. I gave him a glass of water."
+    elif (commands[1] == "yoda"):
+        yoda = ('thJ4GCpx5lmshJlFqLbRaXr5cb0Yp1SDDbRjsnDU0dJo1XRpZ5')
+        parser = argparse.ArgumentParser(description='What do you want Yoda to say?')
+        parser.add_argument( 'yodasLine', help='What do you want Yoda to say?' )
+        args = parser.parse_args()
+        
+        str = urllib.quote(args.yodasLine)
+        opener = urllib2.build_opener()
+        opener.addheaders = [("X-Mashape-Authorization", yoda)]
+        socket = opener.open('https://yoda.p.mashape.com/yoda?sentence=' +
+        str)
+        content = socket.read()
+        socket.close()
+        print content
+        print ""
+        print ""
+        speak = ""
+        for index in range(len(commands)):
+            if index > 1:
+                speak = speak + " " + commands[index];
+        message1 = models.ChatRoom("TomBot", "static/img/tom2.jpg", speak)
+        db.session.add(message1)
+        db.session.commit()
     else:
         message1 = models.ChatRoom("TomBot", "static/img/tom2.jpg", "Unrecognized command: " + data['text'])
         db.session.add(message1)

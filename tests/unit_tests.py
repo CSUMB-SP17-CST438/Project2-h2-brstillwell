@@ -1,5 +1,7 @@
 import unittest
 import app
+from flask import Flask
+import urllib2
 import flask_testing, requests
 
 class unit_testing(unittest.TestCase):
@@ -48,13 +50,13 @@ class unit_testing(unittest.TestCase):
         self.assertEquals(response, "help messages")
 '''        
         
-#class socketio_testing(unittest.TestCase):
-#    def test_server_sends_hello(self):
-#        client = app.socketio.test_client(app.app)
-#        r = client.get_received()
-#        # print r
-#        self.assertEquals(len(r), 3)
-'''        from_server = r[0]
+class socketio_testing(unittest.TestCase):
+    def test_server_sends_hello(self):
+        client = app.socketio.test_client(app.app)
+        r = client.get_received()
+        #print r
+        #self.assertEquals(len(r), 3)
+        from_server = r[0]
         self.assertEquals(
             from_server['name'], 
             'hello to client'
@@ -71,15 +73,15 @@ class unit_testing(unittest.TestCase):
             'number': 'Potatoes are cool!'
         })
         r = client.get_received()
-        # print r
-        self.assertEquals(len(r), 6)
+        #print r
+        #self.assertEquals(len(r), 6)
         from_server = r[1]
         self.assertEquals(
             from_server['name'],
             'usersCount'
         )
         data = from_server['args'][0]
-  '''      
+        
 class ServerIntegrationTestCase(flask_testing.LiveServerTestCase):
     def create_app(self):
         return app.app
@@ -88,6 +90,54 @@ class ServerIntegrationTestCase(flask_testing.LiveServerTestCase):
         r = requests.get(self.get_server_url())
         self.assertEquals(r.text, '<html>\n    <head>\n        <link rel="stylesheet" type="text/css" href="/static/style.css" />\n\n        <meta\n             name="google-signin-scope"\n             content="profile email" />\n             <meta\n             name="google-signin-client_id"\n             content="233732937185-vs8j3hes4a27uf6ufvhq7peijbbr6tub.apps.googleusercontent.com" />\n         <script src="https://apis.google.com/js/platform.js" async defer>\n         </script>\n    \n        <script>\n              window.fbAsyncInit = function() {\n                FB.init({\n                  appId      : \'390393557996792\',\n                  xfbml      : true,\n                  version    : \'v2.8\'\n                });\n                FB.AppEvents.logPageView();\n              };\n            \n              (function(d, s, id){\n                 var js, fjs = d.getElementsByTagName(s)[0];\n                 if (d.getElementById(id)) {return;}\n                 js = d.createElement(s); js.id = id;\n                 js.src = "//connect.facebook.net/en_US/sdk.js";\n                 fjs.parentNode.insertBefore(js, fjs);\n               }(document, \'script\', \'facebook-jssdk\'));\n               \n               function testAPI() {\n                console.log(\'Welcome!  Fetching your information.... \');\n                FB.api(\'/me\', function(response) {\n                  console.log(\'Successful login for: \' + response.name);\n                  document.getElementById(\'status\').innerHTML =\n                    \'Thanks for logging in, \' + response.name + \'!\';\n                });\n              }\n        </script>\n    </head>\n    <body>\n        <div id="content"></div>\n        <script type="text/javascript" src="/static/script.js"></script>\n    </body>\n</html>')
 
+
+from flask_testing import TestCase
+
+from app import db
+
+class MyTest(TestCase):
+
+    SQLALCHEMY_DATABASE_URI = "sqlite://"
+    TESTING = True
+
+    def create_app(self):
+        # pass in test configuration
+        return app.app
+
+    def setUp(self):
+        db.create_all()
+        
+    def test_something(self):
+        user = User()
+        db.session.add(user)
+        db.session.commit()
+        # this works
+        assert user in db.session
+        print "this is user: " + user
+        response = self.client.get("/")
+
+        # this raises an AssertionError
+        assert user in db.session
+
+    def tearDown(self):
+        db.session.remove()
+        db.drop_all()
+
+
+class MyTest(flask_testing.LiveServerTestCase):
+
+    def create_app(self):
+        app = Flask(__name__)
+        app.config['TESTING'] = True
+        # Default port is 5000
+        app.config['LIVESERVER_PORT'] = 8943
+        # Default timeout is 5 seconds
+        app.config['LIVESERVER_TIMEOUT'] = 10
+        return app
+
+    #def test_server_is_up_and_running(self):
+        #response = urllib2.urlopen(self.get_server_url())
+        #self.assertEqual(response.code, 200)
 
 if __name__ == '__main__':
     unittest.main()
