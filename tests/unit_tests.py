@@ -5,35 +5,34 @@ import urllib2
 import flask_testing, requests
 
 class unit_testing(unittest.TestCase):
-    with app.app_context():
-        def test_empty_string(self):
-            result = ''.split()
-            self.assertEquals(result, [])
-            
-        def test_bot_command_help(self):
-            response = app.chatbot_message({'text': "!! help"})
-            self.assertEquals(response, "help messages")
-            
-        def test_bot_command_about(self):
-            response = app.chatbot_message({'text': "!! about"})
-            self.assertEquals(response, "Myspace is better")
+    def test_empty_string(self):
+        result = ''.split()
+        self.assertEquals(result, [])
         
-        def test_bot_command_weather(self):
-            response = app.chatbot_message({'text': "!! weather"})
-            self.assertEquals(response, "Weather in Marina, CA: pending")
+    def test_bot_command_help(self):
+        response = app.chatbot_message({'text': "!! help"})
+        self.assertEquals(response, "help messages")
         
-        def test_bot_command_say(self):
-            response = app.chatbot_message({'text': "!! say testing"})
-            self.assertEquals(response, " testing")
-        
-        def test_bot_command_wrong(self):
-            response = app.chatbot_message({'text': "!! test"})
-            self.assertEquals(response, "Unrecognized command: !! test")
-        
-        def test_bot_command_joke(self):
-            response = app.chatbot_message({'text': "!! joke"})
-            self.assertEquals(response, "Today a man knocked on my door and asked for a small donation towards the local swimming pool. I gave him a glass of water.")
-        
+    def test_bot_command_about(self):
+        response = app.chatbot_message({'text': "!! about"})
+        self.assertEquals(response, "Myspace is better")
+    
+    def test_bot_command_weather(self):
+        response = app.chatbot_message({'text': "!! weather"})
+        self.assertEquals(response, "Weather in Marina, CA: pending")
+    
+    def test_bot_command_say(self):
+        response = app.chatbot_message({'text': "!! say testing"})
+        self.assertEquals(response, " testing")
+    
+    def test_bot_command_wrong(self):
+        response = app.chatbot_message({'text': "!! test"})
+        self.assertEquals(response, "Unrecognized command: !! test")
+    
+    def test_bot_command_joke(self):
+        response = app.chatbot_message({'text': "!! joke"})
+        self.assertEquals(response, "Today a man knocked on my door and asked for a small donation towards the local swimming pool. I gave him a glass of water.")
+    
 '''    def test_bot_command_help(self):
         response = app.chatbot_message({'text': "!! help"})
         self.assertEquals(response, "help messages")
