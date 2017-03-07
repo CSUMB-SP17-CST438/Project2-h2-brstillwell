@@ -12,16 +12,17 @@ chat. I also made good 'ol Tom as my chatbot.
 
 #What are known problems, if any, with your project?
 
-The only problems that I have is with the user count. When refreshing it will just
-keep adding more users because it takes a while to pick up on who disconnects. Also
-the user list is broken and it will add the same user more than once sometimes, and 
-sometimes it wont remove them from the list. 
+Sometimes when using the Yoda API it will timeout and throw an error. 
 
 
 #How would you improve it if you had more time?
 
-I would fix the part that shows the amount of users by using socket methods of tracking
-the amount of users that are connected. Also to fix the user list, if I could get the IDs
-of all the users that are connected I would be able to remove users who aren't connected
-based on their ids from the list. 
+It hardly comes up, but I would maybe try and catch the error so it doesn't mess
+up the chatroom. If it comes up in testing (which happened to me) just rebuild it
+again and it should pass the next time. 
+
+#Improvements
+
+I fixed the bug that whenever you would sign out of facebook and then sign into google, it 
+would post an error. 
 

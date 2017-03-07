@@ -67,14 +67,6 @@ class unit_testing(unittest.TestCase):
         self.assertEquals(response, "help messages")
 '''        
 '''   
-class ServerIntegrationTestCase(flask_testing.LiveServerTestCase):
-    def create_app(self):
-        return app.app
-        
-    def test_server_sends_hello(self):
-        r = requests.get(self.get_server_url())
-        self.assertEquals(r.text, '<html>\n    <head>\n        <link rel="stylesheet" type="text/css" href="/static/style.css" />\n\n        <meta\n             name="google-signin-scope"\n             content="profile email" />\n             <meta\n             name="google-signin-client_id"\n             content="233732937185-vs8j3hes4a27uf6ufvhq7peijbbr6tub.apps.googleusercontent.com" />\n         <script src="https://apis.google.com/js/platform.js" async defer>\n         </script>\n    \n        <script>\n              window.fbAsyncInit = function() {\n                FB.init({\n                  appId      : \'390393557996792\',\n                  xfbml      : true,\n                  version    : \'v2.8\'\n                });\n                FB.AppEvents.logPageView();\n              };\n            \n              (function(d, s, id){\n                 var js, fjs = d.getElementsByTagName(s)[0];\n                 if (d.getElementById(id)) {return;}\n                 js = d.createElement(s); js.id = id;\n                 js.src = "//connect.facebook.net/en_US/sdk.js";\n                 fjs.parentNode.insertBefore(js, fjs);\n               }(document, \'script\', \'facebook-jssdk\'));\n               \n               function testAPI() {\n                console.log(\'Welcome!  Fetching your information.... \');\n                FB.api(\'/me\', function(response) {\n                  console.log(\'Successful login for: \' + response.name);\n                  document.getElementById(\'status\').innerHTML =\n                    \'Thanks for logging in, \' + response.name + \'!\';\n                });\n              }\n        </script>\n    </head>\n    <body>\n        <div id="content"></div>\n        <script type="text/javascript" src="/static/script.js"></script>\n    </body>\n</html>')
-
 
 from flask_testing import TestCase
 
