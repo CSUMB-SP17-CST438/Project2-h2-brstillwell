@@ -22,6 +22,7 @@ class socketio_testing(unittest.TestCase):
             'numbers': userlog
         })
         received = client.get_received()
+        print received
         client.disconnect()
         
     def test_chatroom(self):
@@ -55,6 +56,7 @@ class socketio_testing2(unittest.TestCase):
         r = client.get_received()
         from_server = r[1]
         self.assertEquals(r[-1]['name'], "got your message")
+        client.disconnect()
         
     def test_connect(self):
         client = app.socketio.test_client(app.app)
